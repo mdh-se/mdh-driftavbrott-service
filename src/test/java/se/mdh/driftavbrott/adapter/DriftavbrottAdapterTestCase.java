@@ -13,6 +13,20 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Enhetstester för {@link DriftavbrottAdapter}.
+ *
+ * Så här ska logiken fungera:
+ *
+ * <pre>
+ * Start  Slut    Testet körs   Resultat
+ *
+ * 00:10  01:10   Före  00:01   idag+start    idag+slut     (1)
+ *                Under 00:30   idag+start    idag+slut     (1)
+ *                Efter 02:10   imorgon+start imorgon+slut  (2)
+ * 23:10  00:10   Före  22:00   idag+start    imorgon+slut  (3)
+ *                Under 23:30   idag+start    imorgon+slut  (3)
+ *                Under 00:01   igår+start    idag+slut     (4)
+ *                Efter 01:10   idag+start    imorgon+slut  (3)
+ * </pre>
  */
 public class DriftavbrottAdapterTestCase {
   private static final Log log = LogFactory.getLog(DriftavbrottAdapterTestCase.class);
