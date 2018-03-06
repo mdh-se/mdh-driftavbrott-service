@@ -82,3 +82,14 @@ Exempel på ett REST-anrop mot din lokala miljö som returnerar ett driftavbrott
 från kanalen `alltid`:
 
 http://localhost:3301/mdh-driftavbrott/v1/driftavbrott/pagaende?kanal=alltid&system=Integrationstest
+
+## Statuskoder
+
+Om tjänsten existerar och är rätt konfigurerad så returnererar den status 200
+om det finns ett driftavbrott eller status 404 om det inte finns något
+driftavbrott.
+
+Om tjänsten existerar men är felaktigt konfigurerad eller inte kan prata med
+datakällan för driftavbrott så returnerar den status 500.
+
+Vid andra typer av oväntade fel returnerar tjänsten status 500.
