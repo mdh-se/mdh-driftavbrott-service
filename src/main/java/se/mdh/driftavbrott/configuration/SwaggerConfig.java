@@ -21,7 +21,8 @@ public class SwaggerConfig {
         .select()
         .apis(RequestHandlerSelectors.basePackage("se.mdh.driftavbrott.rest"))
         .paths(PathSelectors.regex(".*/.*"))
-        .build();
+        .build()
+        .useDefaultResponseMessages(false);
   }
 
   @Bean

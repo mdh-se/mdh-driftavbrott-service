@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,11 @@ public class DriftavbrottController {
     this.service = service;
   }
 
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Det finns ett driftmeddelande."),
+    @ApiResponse(code = 404, message = "Det finns inget driftmeddelande."),
+    @ApiResponse(code = 500, message = "Tjänsten är felkonfigurerad.")
+  })
   @GetMapping(value = "/pagaende", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<Driftavbrott> getPagaende(@RequestParam(value = "kanal", required = false) final String[] kanaler,
                                                   @RequestParam(value = "system") final String system,
