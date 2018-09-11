@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.commons.logging.Log;
@@ -36,11 +38,14 @@ public class DriftavbrottController {
     @ApiResponse(code = 404, message = "Det finns inget driftmeddelande."),
     @ApiResponse(code = 500, message = "Tjänsten är felkonfigurerad.")
   })
+  @ApiOperation(value = "Hämta pågående driftavbrott för ett antal kanaler",
+      notes = "Endast det driftavbrott som har den sista sluttidpunkten returneras")
   @GetMapping(value = "/pagaende", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-  public ResponseEntity<Driftavbrott> getPagaende(@RequestParam(value = "kanal", required = false) final String[] kanaler,
-                                                  @RequestParam(value = "system") final String system,
+  public ResponseEntity<Driftavbrott> getPagaende(@ApiParam(value = "Kanaler att kontrollera") @RequestParam(value = "kanal", required = false) final String[] kanaler,
+                                                  @ApiParam(value = "Anropande system") @RequestParam(value = "system") final String system,
+                                                  @ApiParam(value = "Marginaler i minuter") @RequestParam(value = "marginal", defaultValue = "0") final int marginalerMinuter,
                                                   final HttpServletRequest request) {
-    String logInfo = system + " -> " + request.getMethod() + " /pagaende med kanaler=" + Arrays.toString(kanaler);
+    String logInfo = system + " -> " + request.getMethod() + " /pagaende med kanaler=" + Arrays.toString(kanaler) + " och marginaler i minuter= " + marginalerMinuter;
     log.info(logInfo);
     try {
       List<String> kanalList;
@@ -51,7 +56,7 @@ public class DriftavbrottController {
         kanalList = Arrays.asList(kanaler);
       }
 
-      Optional<Driftavbrott> driftavbrott = service.getPagaendeDriftavbrott(kanalList);
+      Optional<Driftavbrott> driftavbrott = service.getPagaendeDriftavbrott(kanalList, marginalerMinuter);
       if(driftavbrott.isPresent()) {
         return ResponseEntity.ok(driftavbrott.get());
       }
