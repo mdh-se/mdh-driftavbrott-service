@@ -44,7 +44,7 @@ public class IcServiceTest {
   }
 
   @Test
-  public void getPagaendeDriftavbrottWithoutMargins() {
+  public void getPagaendeDriftavbrottUtanMarginal() {
     IcService icService = new IcService(repository, new DriftavbrottAdapter());
     try {
       Optional<Driftavbrott> pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(kanaler, 0);
@@ -56,7 +56,7 @@ public class IcServiceTest {
   }
 
   @Test
-  public void getPagaendeDriftavbrottWithMargins() {
+  public void getPagaendeDriftavbrottMedMarginal() {
     IcService icService = new IcService(repository, new DriftavbrottAdapter());
     try {
       Optional<Driftavbrott> pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(kanaler, 5);

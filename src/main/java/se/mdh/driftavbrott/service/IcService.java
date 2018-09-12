@@ -34,11 +34,11 @@ public class IcService {
    * Det pågående driftavbrottet är en hopslagning av inlagda poster.
    *
    * @param kanaler Hämta driftavbrott för dessa kanaler
-   * @param margins Marginaler
+   * @param marginal Marginal
    * @return Ett driftavbrott, som är <code>Optional</code>
    * @throws DriftavbrottpostRepositoryException om det inte går att hämta driftavbrott från repositoryt
    */
-  public Optional<Driftavbrott> getPagaendeDriftavbrott(final Collection<String> kanaler, final int margins) throws DriftavbrottpostRepositoryException {
+  public Optional<Driftavbrott> getPagaendeDriftavbrott(final Collection<String> kanaler, final int marginal) throws DriftavbrottpostRepositoryException {
 
     List<Driftavbrottpost> poster = driftavbrottpostRepository.listaPoster(LocalDate.now());
 
@@ -51,7 +51,7 @@ public class IcService {
     List<Driftavbrott> driftavbrotts = listStream
         .map(driftavbrottAdapter::konvertera)
         // Filtrera ned samlingen till driftavbrott som pågår
-        .filter(d -> LocalDateTime.now().minusMinutes(margins).isAfter(d.getStart()) && LocalDateTime.now().plusMinutes(margins).isBefore(d.getSlut()))
+        .filter(d -> LocalDateTime.now().minusMinutes(marginal).isAfter(d.getStart()) && LocalDateTime.now().plusMinutes(marginal).isBefore(d.getSlut()))
         .collect(Collectors.toList());
 
     // Sortera driftavbrott enligt slut (ascending) så att vi får de som slutade först först i samlingen

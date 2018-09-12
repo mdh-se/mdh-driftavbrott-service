@@ -43,9 +43,9 @@ public class DriftavbrottController {
   @GetMapping(value = "/pagaende", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<Driftavbrott> getPagaende(@ApiParam(value = "Kanaler att kontrollera") @RequestParam(value = "kanal", required = false) final String[] kanaler,
                                                   @ApiParam(value = "Anropande system") @RequestParam(value = "system") final String system,
-                                                  @ApiParam(value = "Marginaler i minuter") @RequestParam(value = "marginal", defaultValue = "0") final int marginalerMinuter,
+                                                  @ApiParam(value = "Marginal i minuter") @RequestParam(value = "marginal", defaultValue = "0") final int marginalMinuter,
                                                   final HttpServletRequest request) {
-    String logInfo = system + " -> " + request.getMethod() + " /pagaende med kanaler=" + Arrays.toString(kanaler) + " och marginaler i minuter= " + marginalerMinuter;
+    String logInfo = system + " -> " + request.getMethod() + " /pagaende med kanaler=" + Arrays.toString(kanaler) + " och marginal i minuter= " + marginalMinuter;
     log.info(logInfo);
     try {
       List<String> kanalList;
@@ -56,7 +56,7 @@ public class DriftavbrottController {
         kanalList = Arrays.asList(kanaler);
       }
 
-      Optional<Driftavbrott> driftavbrott = service.getPagaendeDriftavbrott(kanalList, marginalerMinuter);
+      Optional<Driftavbrott> driftavbrott = service.getPagaendeDriftavbrott(kanalList, marginalMinuter);
       if(driftavbrott.isPresent()) {
         return ResponseEntity.ok(driftavbrott.get());
       }
