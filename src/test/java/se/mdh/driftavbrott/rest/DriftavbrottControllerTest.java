@@ -35,7 +35,7 @@ public class DriftavbrottControllerTest {
       when(icService.getPagaendeDriftavbrott(Matchers.<Collection<String>>any(), anyInt())).thenReturn(Optional.empty());
       this.mockMvc.perform(get(base + "/pagaende").
           param("system", "DriftavbrottControllerTest")).
-          andExpect(status().is4xxClientError());
+          andExpect(status().is(204));
   }
 
   @Test

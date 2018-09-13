@@ -61,7 +61,7 @@ public class DriftavbrottController {
         return ResponseEntity.ok(driftavbrott.get());
       }
       else {
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
       }
     }
     catch(DriftavbrottpostRepositoryException e) {
