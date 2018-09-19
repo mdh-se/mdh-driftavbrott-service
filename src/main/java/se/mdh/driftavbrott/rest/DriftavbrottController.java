@@ -34,15 +34,14 @@ public class DriftavbrottController {
   }
 
   @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Det finns ett driftmeddelande."),
-    @ApiResponse(code = 404, message = "Det finns inget driftmeddelande."),
-    @ApiResponse(code = 500, message = "Tjänsten är felkonfigurerad.")
+    @ApiResponse(code = 200, message = "Det finns ett driftavbrott."),
+    @ApiResponse(code = 204, message = "Det finns inget driftavbrott."),
   })
   @ApiOperation(value = "Hämta pågående driftavbrott för ett antal kanaler",
       notes = "Endast det driftavbrott som har den sista sluttidpunkten returneras")
   @GetMapping(value = "/pagaende", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<Driftavbrott> getPagaende(@ApiParam(value = "Kanaler att kontrollera") @RequestParam(value = "kanal", required = false) final String[] kanaler,
-                                                  @ApiParam(value = "Anropande system") @RequestParam(value = "system") final String system,
+                                                  @ApiParam(value = "Anropande system", required = true) @RequestParam(value = "system") final String system,
                                                   @ApiParam(value = "Marginal i minuter") @RequestParam(value = "marginal", defaultValue = "0") final int marginalMinuter,
                                                   final HttpServletRequest request) {
     String logInfo = system + " -> " + request.getMethod() + " /pagaende med kanaler=" + Arrays.toString(kanaler) + " och marginal i minuter= " + marginalMinuter;
