@@ -2,6 +2,7 @@ package se.mdh.driftavbrott.service;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,13 +56,7 @@ public class IcService {
         .collect(Collectors.toList());
 
     // Sortera driftavbrott enligt slut (ascending) så att vi får de som slutade först först i samlingen
-    Collections.sort(driftavbrotts, (a, b) -> a.getSlut().compareTo(b.getSlut()));
-
-    // Sortera driftavbrott enligt start (ascending) så att vi får de som började först först i samlingen
-    Collections.sort(driftavbrotts, (a, b) -> a.getStart().compareTo(b.getStart()));
-
-    // Resultat: Vi har en sorterad samling driftavbrott där primary-sorten är
-    // på start, och secondary är slut eftersom vi sorterade på slut först
+    Collections.sort(driftavbrotts, Comparator.comparing(Driftavbrott::getSlut));
 
     // Returnera den sista gällande
     return driftavbrotts.stream().reduce((first, second) -> second);
