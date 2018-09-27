@@ -19,6 +19,7 @@ import se.mdh.driftavbrott.repository.DriftavbrottpostRepositoryProperties;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class IcServiceTest {
 
@@ -53,6 +54,7 @@ public class IcServiceTest {
     }
     catch(DriftavbrottpostRepositoryException e) {
       e.printStackTrace();
+      fail(e.getMessage());
     }
   }
 
@@ -68,6 +70,7 @@ public class IcServiceTest {
     }
     catch(DriftavbrottpostRepositoryException e) {
       e.printStackTrace();
+      fail(e.getMessage());
     }
   }
 
@@ -86,6 +89,7 @@ public class IcServiceTest {
     }
     catch(DriftavbrottpostRepositoryException e) {
       e.printStackTrace();
+      fail(e.getMessage());
     }
   }
 
@@ -104,6 +108,7 @@ public class IcServiceTest {
     }
     catch(DriftavbrottpostRepositoryException e) {
       e.printStackTrace();
+      fail(e.getMessage());
     }
   }
 }
