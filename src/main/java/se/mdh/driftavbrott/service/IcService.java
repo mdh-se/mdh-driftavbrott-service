@@ -52,7 +52,7 @@ public class IcService {
     List<Driftavbrott> driftavbrotts = listStream
         .map(driftavbrottAdapter::konvertera)
         // Filtrera ned samlingen till driftavbrott som pågår
-        .filter(d -> LocalDateTime.now().minusMinutes(marginal).isAfter(d.getStart()) && LocalDateTime.now().plusMinutes(marginal).isBefore(d.getSlut()))
+        .filter(d -> LocalDateTime.now().isAfter(d.getStart().minusMinutes(marginal)) && LocalDateTime.now().isBefore(d.getSlut().plusMinutes(marginal)))
         .collect(Collectors.toList());
 
     // Sortera driftavbrott enligt slut (ascending) så att vi får de som slutade först först i samlingen

@@ -33,9 +33,7 @@ public class IcServiceTest {
 
   @Before
   public void setupTest() {
-    DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-    DateTime dt = formatter.parseDateTime("2017-10-03 16:01:00");
-    DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
+
   }
 
   @After
@@ -46,6 +44,9 @@ public class IcServiceTest {
   @Test
   public void getPagaendeDriftavbrottUtanMarginal() {
     IcService icService = new IcService(repository, new DriftavbrottAdapter());
+    DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    DateTime dt = formatter.parseDateTime("2017-10-04 10:58:00");
+    DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
     try {
       Optional<Driftavbrott> pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(kanaler, 0);
       assertTrue(pagaendeDriftavbrott.isPresent());
@@ -56,10 +57,49 @@ public class IcServiceTest {
   }
 
   @Test
-  public void getPagaendeDriftavbrottMedMarginal() {
+  public void getIckePagaendeDriftavbrottUtanMarginal() {
+    IcService icService = new IcService(repository, new DriftavbrottAdapter());
+    DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    DateTime dt = formatter.parseDateTime("2017-10-04 11:58:00");
+    DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
+    try {
+      Optional<Driftavbrott> pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(kanaler, 0);
+      assertFalse(pagaendeDriftavbrott.isPresent());
+    }
+    catch(DriftavbrottpostRepositoryException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void getPagaendeDriftavbrottMedSlutMarginal() {
+    DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    DateTime dt = formatter.parseDateTime("2017-10-04 11:05:00");
+    DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
+    IcService icService = new IcService(repository, new DriftavbrottAdapter());
+    try {
+      Optional<Driftavbrott> pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(kanaler, 10);
+      assertTrue(pagaendeDriftavbrott.isPresent());
+
+      pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(kanaler, 1);
+      assertFalse(pagaendeDriftavbrott.isPresent());
+    }
+    catch(DriftavbrottpostRepositoryException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void getPagaendeDriftavbrottMedStartMarginal() {
+    DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    DateTime dt = formatter.parseDateTime("2017-10-03 15:58:00");
+    DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
     IcService icService = new IcService(repository, new DriftavbrottAdapter());
     try {
       Optional<Driftavbrott> pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(kanaler, 5);
+      assertTrue(pagaendeDriftavbrott.isPresent());
+
+      pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(kanaler, 1);
       assertFalse(pagaendeDriftavbrott.isPresent());
     }
     catch(DriftavbrottpostRepositoryException e) {
