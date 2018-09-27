@@ -1,7 +1,6 @@
 package se.mdh.driftavbrott.service;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -10,8 +9,8 @@ import java.util.stream.Stream;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Service;
-import se.mdh.driftavbrott.modell.Driftavbrott;
 import se.mdh.driftavbrott.adapter.DriftavbrottAdapter;
+import se.mdh.driftavbrott.modell.Driftavbrott;
 import se.mdh.driftavbrott.repository.Driftavbrottpost;
 import se.mdh.driftavbrott.repository.DriftavbrottpostRepository;
 import se.mdh.driftavbrott.repository.DriftavbrottpostRepositoryException;
