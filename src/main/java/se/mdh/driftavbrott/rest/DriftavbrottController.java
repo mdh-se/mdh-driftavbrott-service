@@ -34,8 +34,8 @@ public class DriftavbrottController {
   }
 
   @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Det finns ett driftavbrott."),
-    @ApiResponse(code = 204, message = "Det finns inget driftavbrott."),
+      @ApiResponse(code = 200, message = "Det finns ett driftavbrott."),
+      @ApiResponse(code = 204, message = "Det finns inget driftavbrott."),
   })
   @ApiOperation(value = "Hämta pågående driftavbrott för ett antal kanaler",
       notes = "Endast det driftavbrott som har den sista sluttidpunkten returneras")
