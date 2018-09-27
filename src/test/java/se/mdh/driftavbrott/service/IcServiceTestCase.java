@@ -21,7 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class IcServiceTest {
+public class IcServiceTestCase {
 
   private static DriftavbrottpostRepository repository;
   private static List<String> kanaler = Arrays.asList("ladok.backup","ladok.produktionssattning","ladok.uppgradering");

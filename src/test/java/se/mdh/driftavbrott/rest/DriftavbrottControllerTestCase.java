@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(DriftavbrottController.class)
-public class DriftavbrottControllerTest {
+public class DriftavbrottControllerTestCase {
 
   @Autowired
   private MockMvc mockMvc;
@@ -34,7 +34,7 @@ public class DriftavbrottControllerTest {
   public void getIngetPagaendeDriftavbrott() throws Exception {
       when(icService.getPagaendeDriftavbrott(Matchers.<Collection<String>>any(), anyInt())).thenReturn(Optional.empty());
       this.mockMvc.perform(get(base + "/pagaende").
-          param("system", "DriftavbrottControllerTest")).
+          param("system", "DriftavbrottControllerTestCase")).
           andExpect(status().is(204));
   }
 
@@ -42,7 +42,7 @@ public class DriftavbrottControllerTest {
   public void getPagaendeDriftavbrott() throws Exception {
     when(icService.getPagaendeDriftavbrott(Matchers.<Collection<String>>any(), anyInt())).thenReturn(Optional.of(new Driftavbrott()));
     this.mockMvc.perform(get(base + "/pagaende").
-        param("system", "DriftavbrottControllerTest")).
+        param("system", "DriftavbrottControllerTestCase")).
         andExpect(status().is2xxSuccessful());
   }
 }
