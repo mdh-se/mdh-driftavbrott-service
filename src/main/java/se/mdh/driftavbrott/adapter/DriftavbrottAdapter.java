@@ -1,5 +1,8 @@
 package se.mdh.driftavbrott.adapter;
 
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.text.StringSubstitutor;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
@@ -93,25 +96,18 @@ public class DriftavbrottAdapter {
       driftavbrott.setStart(startDate.toLocalDateTime(startTime));
       driftavbrott.setSlut(slutDate.toLocalDateTime(slutTime));
 
-      String defaultMeddelandeSv = replaceStringWithPlaceholder(post.getDefaultMeddelandeSv(), driftavbrott.getStart(), "${start}");
-      defaultMeddelandeSv = replaceStringWithPlaceholder(defaultMeddelandeSv, driftavbrott.getSlut(), "${slut}");
+      Map<String, String> valuesMap = new HashMap<>();
+      valuesMap.put("start", driftavbrott.getStart().toString(DATE_TIME_FORMATTER_MESSAGE));
+      valuesMap.put("slut", driftavbrott.getSlut().toString(DATE_TIME_FORMATTER_MESSAGE));
 
-      String defaultMeddelandeEn = replaceStringWithPlaceholder(post.getDefaultMeddelandeEn(), driftavbrott.getStart(), "${start}");
-      defaultMeddelandeEn = replaceStringWithPlaceholder(defaultMeddelandeEn, driftavbrott.getSlut(), "${slut}");
+      StringSubstitutor sub = new StringSubstitutor(valuesMap);
+      String defaultMeddelandeSv = sub.replace(post.getDefaultMeddelandeSv());
+      String defaultMeddelandeEn = sub.replace(post.getDefaultMeddelandeEn());
 
       driftavbrott.setMeddelandeSv(defaultMeddelandeSv);
       driftavbrott.setMeddelandeEn(defaultMeddelandeEn);
     }
 
     return driftavbrott;
-  }
-
-  private String replaceStringWithPlaceholder(String stringWithPlaceholder, LocalDateTime localDateTime, String placeholder) {
-    if(stringWithPlaceholder.contains(placeholder)) {
-      return stringWithPlaceholder.replace(placeholder, localDateTime.toString(DATE_TIME_FORMATTER_MESSAGE));
-    }
-    else {
-      return stringWithPlaceholder;
-    }
   }
 }
