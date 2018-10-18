@@ -21,6 +21,7 @@ public class DriftavbrottAdapter {
 
   static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
   static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern("HH:mm");
+  static final DateTimeFormatter DATE_TIME_FORMATTER_MESSAGE = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
 
   /**
    * Konverterar en {@link Driftavbrottpost} till en {@link Driftavbrott}.
@@ -107,7 +108,7 @@ public class DriftavbrottAdapter {
 
   private String replaceStringWithPlaceholder(String stringWithPlaceholder, LocalDateTime localDateTime, String placeholder) {
     if(stringWithPlaceholder.contains(placeholder)) {
-      return stringWithPlaceholder.replace(placeholder, localDateTime.toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")));
+      return stringWithPlaceholder.replace(placeholder, localDateTime.toString(DATE_TIME_FORMATTER_MESSAGE));
     }
     else {
       return stringWithPlaceholder;
