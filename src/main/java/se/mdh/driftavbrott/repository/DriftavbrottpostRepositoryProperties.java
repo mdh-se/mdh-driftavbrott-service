@@ -43,6 +43,8 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
         post.setKanal((String) key);
         post.setStart(splitted[0]);
         post.setSlut(splitted[1]);
+        post.setDefaultMeddelandeSv(splitted[2]);
+        post.setDefaultMeddelandeEn(splitted[3]);
 
         poster.add(post);
       }

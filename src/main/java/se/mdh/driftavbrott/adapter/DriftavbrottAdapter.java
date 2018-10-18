@@ -44,8 +44,6 @@ public class DriftavbrottAdapter {
 
     driftavbrott.setKanal(post.getKanal());
     driftavbrott.setNiva(DEFAULT_NIVA);
-    driftavbrott.setMeddelandeSv(DEFAULT_MEDDELANDE_SV);
-    driftavbrott.setMeddelandeEn(DEFAULT_MEDDELANDE_EN);
 
     if(post.getStart().contains("T")) { // Adapteras som datetime
       driftavbrott.setStart(LocalDateTime.parse(post.getStart(), DATE_TIME_FORMATTER));
@@ -97,8 +95,26 @@ public class DriftavbrottAdapter {
 
       driftavbrott.setStart(startDate.toLocalDateTime(startTime));
       driftavbrott.setSlut(slutDate.toLocalDateTime(slutTime));
+
+      String defaultMeddelandeSv = replaceStringWithPlaceholder(post.getDefaultMeddelandeSv(), driftavbrott.getStart(), "${start}");
+      defaultMeddelandeSv = replaceStringWithPlaceholder(defaultMeddelandeSv, driftavbrott.getSlut(), "${slut}");
+
+      String defaultMeddelandeEn = replaceStringWithPlaceholder(post.getDefaultMeddelandeEn(), driftavbrott.getStart(), "${start}");
+      defaultMeddelandeEn = replaceStringWithPlaceholder(defaultMeddelandeEn, driftavbrott.getSlut(), "${slut}");
+
+      driftavbrott.setMeddelandeSv(defaultMeddelandeSv);
+      driftavbrott.setMeddelandeEn(defaultMeddelandeEn);
     }
 
     return driftavbrott;
+  }
+
+  private String replaceStringWithPlaceholder(String stringWithPlaceholder, LocalDateTime localDateTime, String placeholder) {
+    if(stringWithPlaceholder.contains(placeholder)) {
+      return stringWithPlaceholder.replace(placeholder, localDateTime.toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")));
+    }
+    else {
+      return stringWithPlaceholder;
+    }
   }
 }
