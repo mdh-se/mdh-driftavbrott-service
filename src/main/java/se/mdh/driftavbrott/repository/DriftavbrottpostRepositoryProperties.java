@@ -29,8 +29,8 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
 
   private String propertiesfil;
 
-  ResourceBundle driftavbrottBundleSv;
-  ResourceBundle driftavbrottBundleEn;
+  private ResourceBundle driftavbrottBundleSv;
+  private ResourceBundle driftavbrottBundleEn;
 
   public DriftavbrottpostRepositoryProperties(@Qualifier("se.mdh.driftavbrott.repository.propertiesfil") final String propertiesfil) {
     this.propertiesfil = propertiesfil;
