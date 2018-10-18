@@ -18,8 +18,6 @@ import se.mdh.driftavbrott.repository.Driftavbrottpost;
 @Component
 public class DriftavbrottAdapter {
   private static final NivaType DEFAULT_NIVA = NivaType.ERROR;
-  private static final String DEFAULT_MEDDELANDE_SV = "";
-  private static final String DEFAULT_MEDDELANDE_EN = "";
 
   static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
   static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern("HH:mm");

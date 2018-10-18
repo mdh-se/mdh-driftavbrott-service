@@ -34,6 +34,8 @@ public class DriftavbrottAdapterTestCase {
   private DriftavbrottAdapter adapter = new DriftavbrottAdapter();
   private static LocalDateTime now;
   private static int hourOffset;
+  private static final String DEFAULT_MEDDELANDE_SV = "";
+  private static final String DEFAULT_MEDDELANDE_EN = "";
 
   @BeforeClass
   public static void beforeClass() {
@@ -50,6 +52,8 @@ public class DriftavbrottAdapterTestCase {
     LocalDateTime slut = runTime.plusHours(slutOffset + hourOffset);
     post.setSlut(slut.toLocalTime().toString(DriftavbrottAdapter.TIME_FORMATTER));
     post.setKanal("mdh.test");
+    post.setDefaultMeddelandeSv(DEFAULT_MEDDELANDE_SV);
+    post.setDefaultMeddelandeEn(DEFAULT_MEDDELANDE_EN);
     log.info(post);
     log.info(start);
     log.info(slut);
@@ -63,6 +67,8 @@ public class DriftavbrottAdapterTestCase {
     LocalDateTime slut = runTime.plusMinutes(slutOffset);
     post.setSlut(slut.toLocalTime().toString(DriftavbrottAdapter.TIME_FORMATTER));
     post.setKanal("mdh.test");
+    post.setDefaultMeddelandeSv(DEFAULT_MEDDELANDE_SV);
+    post.setDefaultMeddelandeEn(DEFAULT_MEDDELANDE_EN);
     log.info(post);
     log.info(start);
     log.info(slut);
@@ -75,6 +81,8 @@ public class DriftavbrottAdapterTestCase {
     post.setKanal("mdh.test");
     post.setStart("2017-10-01T16:00");
     post.setSlut("2017-10-01T17:00");
+    post.setDefaultMeddelandeSv(DEFAULT_MEDDELANDE_SV);
+    post.setDefaultMeddelandeEn(DEFAULT_MEDDELANDE_EN);
 
     Driftavbrott driftavbrott = adapter.konvertera(post);
     assertEquals(post.getKanal(), driftavbrott.getKanal());
