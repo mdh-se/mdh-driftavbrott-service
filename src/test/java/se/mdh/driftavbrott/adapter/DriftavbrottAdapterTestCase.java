@@ -10,6 +10,8 @@ import se.mdh.driftavbrott.modell.NivaType;
 import se.mdh.driftavbrott.repository.Driftavbrottpost;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Enhetstester för {@link DriftavbrottAdapter}.
@@ -34,8 +36,8 @@ public class DriftavbrottAdapterTestCase {
   private DriftavbrottAdapter adapter = new DriftavbrottAdapter();
   private static LocalDateTime now;
   private static int hourOffset;
-  private static final String DEFAULT_MEDDELANDE_SV = "";
-  private static final String DEFAULT_MEDDELANDE_EN = "";
+  private static final String DEFAULT_MEDDELANDE_SV = "Någonting är fel. Felet kommer pågå från ${start} till ${slut}";
+  private static final String DEFAULT_MEDDELANDE_EN = "Something is wrong.";
 
   @BeforeClass
   public static void beforeClass() {
@@ -200,4 +202,32 @@ public class DriftavbrottAdapterTestCase {
     assertEquals("Slut imorgon", now.plusDays(1).plusHours(-2 + hourOffset).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
   }
 
+  /**
+   * Testfall: När en Driftavbrottspost konverteras och har en placeholder
+   * för start- och sluttid i meddelandet så skall det ersättas med värden för
+   * start- och sluttid.
+   */
+  @Test
+  public void testErsattPlaceholderMedStartOchSluttid() {
+    Driftavbrottpost post = createDriftavbrottpostOlikaDagar(now, -24, -2);
+    Driftavbrott driftavbrott = adapter.konvertera(post);
+
+    assertFalse(driftavbrott.getMeddelandeSv().equals(DEFAULT_MEDDELANDE_SV));
+    assertFalse(driftavbrott.getMeddelandeSv().contains("${start}"));
+    assertFalse(driftavbrott.getMeddelandeSv().contains("${slut}"));
+    assertTrue(driftavbrott.getMeddelandeSv().contains(driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER_MESSAGE)));
+    assertTrue(driftavbrott.getMeddelandeSv().contains(driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER_MESSAGE)));
+  }
+
+  /**
+   * Testfall: När en Driftavbrottpost konverteras och inte har en placeholder
+   * för start- och sluttid i meddelandet så skall ingenting ändras i meddelandet.
+   */
+  @Test
+  public void testErsattMeddelandeUtanPlaceholder() {
+    Driftavbrottpost post = createDriftavbrottpostOlikaDagar(now, -24, -2);
+    Driftavbrott driftavbrott = adapter.konvertera(post);
+
+    assertTrue(driftavbrott.getMeddelandeEn().equals(DEFAULT_MEDDELANDE_EN));
+  }
 }
