@@ -31,8 +31,6 @@ public class DriftavbrottAdapter {
    *
    * Konverteringen använder följande default-värden:
    * {@link Driftavbrott#niva} = {@link #DEFAULT_NIVA}
-   * {@link Driftavbrott#meddelandeSv} = {@link #DEFAULT_MEDDELANDE_SV}
-   * {@link Driftavbrott#meddelandeEn} = {@link #DEFAULT_MEDDELANDE_EN}
    *
    * @param post Posten som ska konverteras
    * @return Det konverterade driftavbrottet
