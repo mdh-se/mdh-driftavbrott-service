@@ -24,6 +24,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRepository {
   private static final Log log = LogFactory.getLog(DriftavbrottpostRepositoryProperties.class);
+  private static final String KANAL_DEFAULT = "default";
 
   private String propertiesfil;
 
@@ -70,8 +71,14 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
           try {
             defaultMeddelandeSv = driftavbrottBundleSv.getString(post.getKanal());
           }
-          catch(MissingResourceException e) {
-            log.info("Inget defaultmeddelande konfigurerat för " + post.getKanal() + " på svenska. Sätter meddelandet till tom sträng.");
+          catch(MissingResourceException e1) {
+            try {
+              defaultMeddelandeSv = driftavbrottBundleSv.getString(KANAL_DEFAULT);
+              log.info("Inget defaultmeddelande konfigurerat för kanalen " + post.getKanal() + " på svenska. Använder ett generellt defaultmeddelande.");
+            }
+            catch(MissingResourceException e2) {
+              log.info("Inget defaultmeddelande konfigurerat för kanalen " + post.getKanal() + " på svenska. Använder ett tomt meddelande.");
+            }
           }
 
           post.setMeddelandeSv(defaultMeddelandeSv);
@@ -83,8 +90,14 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
           try {
             defaultMeddelandeEn = driftavbrottBundleEn.getString(post.getKanal());
           }
-          catch(MissingResourceException e) {
-            log.info("Inget defaultmeddelande konfigurerat för " + post.getKanal() + " på engelska. Sätter meddelandet till tom sträng.");
+          catch(MissingResourceException e1) {
+            try {
+              defaultMeddelandeEn = driftavbrottBundleEn.getString(KANAL_DEFAULT);
+              log.info("Inget defaultmeddelande konfigurerat för kanalen " + post.getKanal() + " på engelska. Använder ett generellt defaultmeddelande.");
+            }
+            catch(MissingResourceException e2) {
+              log.info("Inget defaultmeddelande konfigurerat för kanalen " + post.getKanal() + " på engelska. Använder ett tomt meddelande.");
+            }
           }
 
           post.setMeddelandeEn(defaultMeddelandeEn);
