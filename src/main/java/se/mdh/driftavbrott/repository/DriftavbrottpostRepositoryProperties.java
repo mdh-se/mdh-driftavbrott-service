@@ -33,8 +33,8 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
 
   public DriftavbrottpostRepositoryProperties(@Qualifier("se.mdh.driftavbrott.repository.propertiesfil") final String propertiesfil) {
     this.propertiesfil = propertiesfil;
-    driftavbrottBundleSv = ResourceBundle.getBundle("Driftavbrott", new Locale("sv"));
-    driftavbrottBundleEn = ResourceBundle.getBundle("Driftavbrott", new Locale("en"));
+    driftavbrottBundleSv = ResourceBundle.getBundle("se.mdh.driftavbrott.Driftavbrott", new Locale("sv"));
+    driftavbrottBundleEn = ResourceBundle.getBundle("se.mdh.driftavbrott.Driftavbrott", new Locale("en"));
   }
 
   @Override
@@ -56,11 +56,11 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
         post.setKanal((String) key);
         post.setStart(splitted[0]);
         post.setSlut(splitted[1]);
-        if(splitted.length == 4 || splitted.length == 5) {
+        if(splitted.length >= 3) {
           post.setMeddelandeSv(splitted[2]);
         }
 
-        if(splitted.length == 5) {
+        if(splitted.length >= 4) {
           post.setMeddelandeEn(splitted[3]);
         }
 
@@ -74,10 +74,14 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
           catch(MissingResourceException e1) {
             try {
               defaultMeddelandeSv = driftavbrottBundleSv.getString(KANAL_DEFAULT);
-              log.info("Inget defaultmeddelande konfigurerat för kanalen " + post.getKanal() + " på svenska. Använder ett generellt defaultmeddelande.");
+              log.debug("Inget defaultmeddelande konfigurerat för kanalen "
+                            + post.getKanal()
+                            + " på svenska. Använder ett generellt defaultmeddelande.");
             }
             catch(MissingResourceException e2) {
-              log.info("Inget defaultmeddelande konfigurerat för kanalen " + post.getKanal() + " på svenska. Använder ett tomt meddelande.");
+              log.debug("Inget defaultmeddelande konfigurerat för kanalen "
+                            + post.getKanal()
+                            + " på svenska. Använder ett tomt meddelande.");
             }
           }
 
@@ -93,10 +97,14 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
           catch(MissingResourceException e1) {
             try {
               defaultMeddelandeEn = driftavbrottBundleEn.getString(KANAL_DEFAULT);
-              log.info("Inget defaultmeddelande konfigurerat för kanalen " + post.getKanal() + " på engelska. Använder ett generellt defaultmeddelande.");
+              log.debug("Inget defaultmeddelande konfigurerat för kanalen "
+                            + post.getKanal()
+                            + " på engelska. Använder ett generellt defaultmeddelande.");
             }
             catch(MissingResourceException e2) {
-              log.info("Inget defaultmeddelande konfigurerat för kanalen " + post.getKanal() + " på engelska. Använder ett tomt meddelande.");
+              log.debug("Inget defaultmeddelande konfigurerat för kanalen "
+                            + post.getKanal()
+                            + " på engelska. Använder ett tomt meddelande.");
             }
           }
 
