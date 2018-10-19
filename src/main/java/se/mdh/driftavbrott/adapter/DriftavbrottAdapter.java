@@ -95,18 +95,19 @@ public class DriftavbrottAdapter {
 
       driftavbrott.setStart(startDate.toLocalDateTime(startTime));
       driftavbrott.setSlut(slutDate.toLocalDateTime(slutTime));
-
-      Map<String, String> valuesMap = new HashMap<>();
-      valuesMap.put("start", driftavbrott.getStart().toString(DATE_TIME_FORMATTER_MESSAGE));
-      valuesMap.put("slut", driftavbrott.getSlut().toString(DATE_TIME_FORMATTER_MESSAGE));
-
-      StringSubstitutor sub = new StringSubstitutor(valuesMap);
-      String meddelandeSv = sub.replace(post.getMeddelandeSv());
-      String meddelandeEn = sub.replace(post.getMeddelandeEn());
-
-      driftavbrott.setMeddelandeSv(meddelandeSv);
-      driftavbrott.setMeddelandeEn(meddelandeEn);
     }
+
+    // Hantera meddelanden och injicera datumen i dem
+    Map<String, String> valuesMap = new HashMap<>();
+    valuesMap.put("start", driftavbrott.getStart().toString(DATE_TIME_FORMATTER_MESSAGE));
+    valuesMap.put("slut", driftavbrott.getSlut().toString(DATE_TIME_FORMATTER_MESSAGE));
+
+    StringSubstitutor sub = new StringSubstitutor(valuesMap);
+    String meddelandeSv = sub.replace(post.getMeddelandeSv());
+    String meddelandeEn = sub.replace(post.getMeddelandeEn());
+
+    driftavbrott.setMeddelandeSv(meddelandeSv);
+    driftavbrott.setMeddelandeEn(meddelandeEn);
 
     return driftavbrott;
   }
