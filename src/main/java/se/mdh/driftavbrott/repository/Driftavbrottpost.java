@@ -38,7 +38,7 @@ public class Driftavbrottpost {
     return meddelandeSv;
   }
 
-  public void setMeddelandeSv(String meddelandeSv) {
+  public void setMeddelandeSv(final String meddelandeSv) {
     this.meddelandeSv = meddelandeSv;
   }
 
@@ -46,7 +46,7 @@ public class Driftavbrottpost {
     return meddelandeEn;
   }
 
-  public void setMeddelandeEn(String meddelandeEn) {
+  public void setMeddelandeEn(final String meddelandeEn) {
     this.meddelandeEn = meddelandeEn;
   }
 
