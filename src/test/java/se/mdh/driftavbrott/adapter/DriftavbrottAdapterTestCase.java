@@ -36,8 +36,8 @@ public class DriftavbrottAdapterTestCase {
   private DriftavbrottAdapter adapter = new DriftavbrottAdapter();
   private static LocalDateTime now;
   private static int hourOffset;
-  private static final String DEFAULT_MEDDELANDE_SV = "Någonting är fel. Felet kommer pågå från ${start} till ${slut}";
-  private static final String DEFAULT_MEDDELANDE_EN = "Something is wrong.";
+  private static final String MEDDELANDE_SV = "Någonting är fel. Felet kommer pågå från ${start} till ${slut}";
+  private static final String MEDDELANDE_EN = "Something is wrong.";
 
   @BeforeClass
   public static void beforeClass() {
@@ -54,8 +54,8 @@ public class DriftavbrottAdapterTestCase {
     LocalDateTime slut = runTime.plusHours(slutOffset + hourOffset);
     post.setSlut(slut.toLocalTime().toString(DriftavbrottAdapter.TIME_FORMATTER));
     post.setKanal("mdh.test");
-    post.setDefaultMeddelandeSv(DEFAULT_MEDDELANDE_SV);
-    post.setDefaultMeddelandeEn(DEFAULT_MEDDELANDE_EN);
+    post.setMeddelandeSv(MEDDELANDE_SV);
+    post.setMeddelandeEn(MEDDELANDE_EN);
     log.info(post);
     log.info(start);
     log.info(slut);
@@ -69,8 +69,8 @@ public class DriftavbrottAdapterTestCase {
     LocalDateTime slut = runTime.plusMinutes(slutOffset);
     post.setSlut(slut.toLocalTime().toString(DriftavbrottAdapter.TIME_FORMATTER));
     post.setKanal("mdh.test");
-    post.setDefaultMeddelandeSv(DEFAULT_MEDDELANDE_SV);
-    post.setDefaultMeddelandeEn(DEFAULT_MEDDELANDE_EN);
+    post.setMeddelandeSv(MEDDELANDE_SV);
+    post.setMeddelandeEn(MEDDELANDE_EN);
     log.info(post);
     log.info(start);
     log.info(slut);
@@ -83,8 +83,8 @@ public class DriftavbrottAdapterTestCase {
     post.setKanal("mdh.test");
     post.setStart("2017-10-01T16:00");
     post.setSlut("2017-10-01T17:00");
-    post.setDefaultMeddelandeSv(DEFAULT_MEDDELANDE_SV);
-    post.setDefaultMeddelandeEn(DEFAULT_MEDDELANDE_EN);
+    post.setMeddelandeSv(MEDDELANDE_SV);
+    post.setMeddelandeEn(MEDDELANDE_EN);
 
     Driftavbrott driftavbrott = adapter.konvertera(post);
     assertEquals(post.getKanal(), driftavbrott.getKanal());
@@ -212,7 +212,7 @@ public class DriftavbrottAdapterTestCase {
     Driftavbrottpost post = createDriftavbrottpostOlikaDagar(now, -24, -2);
     Driftavbrott driftavbrott = adapter.konvertera(post);
 
-    assertFalse(driftavbrott.getMeddelandeSv().equals(DEFAULT_MEDDELANDE_SV));
+    assertFalse(driftavbrott.getMeddelandeSv().equals(MEDDELANDE_SV));
     assertFalse(driftavbrott.getMeddelandeSv().contains("${start}"));
     assertFalse(driftavbrott.getMeddelandeSv().contains("${slut}"));
     assertTrue(driftavbrott.getMeddelandeSv().contains(driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER_MESSAGE)));
@@ -228,6 +228,6 @@ public class DriftavbrottAdapterTestCase {
     Driftavbrottpost post = createDriftavbrottpostOlikaDagar(now, -24, -2);
     Driftavbrott driftavbrott = adapter.konvertera(post);
 
-    assertTrue(driftavbrott.getMeddelandeEn().equals(DEFAULT_MEDDELANDE_EN));
+    assertTrue(driftavbrott.getMeddelandeEn().equals(MEDDELANDE_EN));
   }
 }

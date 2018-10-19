@@ -9,7 +9,6 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import javax.annotation.PostConstruct;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -17,7 +16,6 @@ import org.apache.commons.logging.LogFactory;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import se.mdh.driftavbrott.rest.DriftavbrottController;
 
 /**
  * En implementation av {@link DriftavbrottpostRepository} som hämtar {@link Driftavbrottpost}er från
@@ -25,7 +23,7 @@ import se.mdh.driftavbrott.rest.DriftavbrottController;
  */
 @Repository
 public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRepository {
-  private static final Log log = LogFactory.getLog(DriftavbrottpostRepository.class);
+  private static final Log log = LogFactory.getLog(DriftavbrottpostRepositoryProperties.class);
 
   private String propertiesfil;
 
@@ -58,38 +56,38 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
         post.setStart(splitted[0]);
         post.setSlut(splitted[1]);
         if(splitted.length == 4 || splitted.length == 5) {
-          post.setDefaultMeddelandeSv(splitted[2]);
+          post.setMeddelandeSv(splitted[2]);
         }
 
         if(splitted.length == 5) {
-          post.setDefaultMeddelandeEn(splitted[3]);
+          post.setMeddelandeEn(splitted[3]);
         }
 
         // Sätt defaultvärde om inget är angivet i driftavbrottet
-        if(StringUtils.isEmpty(post.getDefaultMeddelandeSv())) {
-          String driftMeddelandeSv = "";
+        if(StringUtils.isEmpty(post.getMeddelandeSv())) {
+          String defaultMeddelandeSv = "";
 
           try {
-            driftMeddelandeSv = driftavbrottBundleSv.getString(post.getKanal());
+            defaultMeddelandeSv = driftavbrottBundleSv.getString(post.getKanal());
           }
           catch(MissingResourceException e) {
-            log.info("Inget defaultmeddelande konfigurerat för " + post.getKanal() + " på svenska. Sätter värdet till tom sträng.");
+            log.info("Inget defaultmeddelande konfigurerat för " + post.getKanal() + " på svenska. Sätter meddelandet till tom sträng.");
           }
 
-          post.setDefaultMeddelandeSv(driftMeddelandeSv);
+          post.setMeddelandeSv(defaultMeddelandeSv);
         }
 
-        if(StringUtils.isEmpty(post.getDefaultMeddelandeEn())) {
-          String driftMeddelandeEn = "";
+        if(StringUtils.isEmpty(post.getMeddelandeEn())) {
+          String defaultMeddelandeEn = "";
 
           try {
-            driftMeddelandeEn = driftavbrottBundleEn.getString(post.getKanal());
+            defaultMeddelandeEn = driftavbrottBundleEn.getString(post.getKanal());
           }
           catch(MissingResourceException e) {
-            log.info("Inget defaultmeddelande konfigurerat för " + post.getKanal() + " på engelska. Sätter värdet till tom sträng.");
+            log.info("Inget defaultmeddelande konfigurerat för " + post.getKanal() + " på engelska. Sätter meddelandet till tom sträng.");
           }
 
-          post.setDefaultMeddelandeEn(driftMeddelandeEn);
+          post.setMeddelandeEn(defaultMeddelandeEn);
         }
 
         poster.add(post);

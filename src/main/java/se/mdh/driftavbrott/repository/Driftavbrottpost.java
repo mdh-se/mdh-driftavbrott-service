@@ -7,8 +7,8 @@ public class Driftavbrottpost {
   private String kanal;
   private String start;
   private String slut;
-  private String defaultMeddelandeSv;
-  private String defaultMeddelandeEn;
+  private String meddelandeSv;
+  private String meddelandeEn;
 
   public String getSlut() {
     return slut;
@@ -34,20 +34,20 @@ public class Driftavbrottpost {
     this.start = start;
   }
 
-  public String getDefaultMeddelandeSv() {
-    return defaultMeddelandeSv;
+  public String getMeddelandeSv() {
+    return meddelandeSv;
   }
 
-  public void setDefaultMeddelandeSv(String defaultMeddelandeSv) {
-    this.defaultMeddelandeSv = defaultMeddelandeSv;
+  public void setMeddelandeSv(String meddelandeSv) {
+    this.meddelandeSv = meddelandeSv;
   }
 
-  public String getDefaultMeddelandeEn() {
-    return defaultMeddelandeEn;
+  public String getMeddelandeEn() {
+    return meddelandeEn;
   }
 
-  public void setDefaultMeddelandeEn(String defaultMeddelandeEn) {
-    this.defaultMeddelandeEn = defaultMeddelandeEn;
+  public void setMeddelandeEn(String meddelandeEn) {
+    this.meddelandeEn = meddelandeEn;
   }
 
   @Override
@@ -56,8 +56,8 @@ public class Driftavbrottpost {
         "kanal='" + kanal + '\'' +
         ", start='" + start + '\'' +
         ", slut='" + slut + '\'' +
-        ", defaultMeddelandeSv='" + defaultMeddelandeSv + '\'' +
-        ", defaultMeddelandeEn='" + defaultMeddelandeEn + '\'' +
+        ", meddelandeSv='" + meddelandeSv + '\'' +
+        ", meddelandeEn='" + meddelandeEn + '\'' +
         '}';
   }
 }

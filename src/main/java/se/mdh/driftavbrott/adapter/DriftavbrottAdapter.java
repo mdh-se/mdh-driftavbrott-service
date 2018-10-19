@@ -101,11 +101,11 @@ public class DriftavbrottAdapter {
       valuesMap.put("slut", driftavbrott.getSlut().toString(DATE_TIME_FORMATTER_MESSAGE));
 
       StringSubstitutor sub = new StringSubstitutor(valuesMap);
-      String defaultMeddelandeSv = sub.replace(post.getDefaultMeddelandeSv());
-      String defaultMeddelandeEn = sub.replace(post.getDefaultMeddelandeEn());
+      String meddelandeSv = sub.replace(post.getMeddelandeSv());
+      String meddelandeEn = sub.replace(post.getMeddelandeEn());
 
-      driftavbrott.setMeddelandeSv(defaultMeddelandeSv);
-      driftavbrott.setMeddelandeEn(defaultMeddelandeEn);
+      driftavbrott.setMeddelandeSv(meddelandeSv);
+      driftavbrott.setMeddelandeEn(meddelandeEn);
     }
 
     return driftavbrott;
