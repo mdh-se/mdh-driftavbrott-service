@@ -3,7 +3,6 @@ package se.mdh.driftavbrott.repository;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -48,8 +47,7 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
         throw new FileNotFoundException("Hittade inte properties-filen '" + propertiesfil + "' på classpath.");
       }
       Properties properties = new Properties();
-      InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-      properties.load(inputStreamReader);
+      properties.load(inputStream);
       for(Object key : properties.keySet()) {
         String value = properties.getProperty((String) key);
         String[] splitted = StringUtils.split(value, ";");
