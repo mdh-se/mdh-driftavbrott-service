@@ -42,8 +42,8 @@ public class DriftavbrottAdapterTestCase {
   @BeforeClass
   public static void beforeClass() {
     now = LocalDateTime.now();
-    // Gör tidsjämförelser som om klockan alltid är mellan klockan 22 och 23
-    hourOffset = 23 - now.getHourOfDay();
+    // Gör tidsjämförelser som om klockan alltid är mellan klockan 21 och 22
+    hourOffset = 21 - now.getHourOfDay();
     log.info("Använder en offset på " + hourOffset + " timmar.");
   }
 
@@ -147,10 +147,10 @@ public class DriftavbrottAdapterTestCase {
    */
   @Test
   public void testKonverteraPostMedTidOlikaDagarFöre() {
-    Driftavbrottpost post = createDriftavbrottpostOlikaDagar(now, 0, 4);
+    Driftavbrottpost post = createDriftavbrottpostOlikaDagar(now, 1, 4);
     Driftavbrott driftavbrott = adapter.konvertera(post);
 
-    assertEquals("Start idag", now.plusHours(0 + hourOffset).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
+    assertEquals("Start idag", now.plusHours(1 + hourOffset).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
     assertEquals("Slut imorgon", now.plusHours(4 + hourOffset).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
   }
 
@@ -178,11 +178,11 @@ public class DriftavbrottAdapterTestCase {
    */
   @Test
   public void testKonverteraPostMedTidOlikaDagarUnderDag2() {
-    Driftavbrottpost post = createDriftavbrottpostOlikaDagar(now, -23, 1);
+    Driftavbrottpost post = createDriftavbrottpostOlikaDagar(now, -22, 1);
     Driftavbrott driftavbrott = adapter.konvertera(post);
 
     // driftavbrott.start resp. slut ska tillhöra olika dagar
-    assertEquals("Start igår", now.plusHours(-23 + hourOffset).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
+    assertEquals("Start igår", now.plusHours(-22 + hourOffset).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
     assertEquals("Slut idag", now.plusHours(1 + hourOffset).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
   }
 
@@ -194,11 +194,11 @@ public class DriftavbrottAdapterTestCase {
    */
   @Test
   public void testKonverteraPostMedTidOlikaDagarEfter() {
-    Driftavbrottpost post = createDriftavbrottpostOlikaDagar(now, -24, -2);
+    Driftavbrottpost post = createDriftavbrottpostOlikaDagar(now, -22, -2);
     Driftavbrott driftavbrott = adapter.konvertera(post);
 
     // driftavbrott.start resp. slut ska vara samma som indata i post, men vara imorgon
-    assertEquals("Start idag", now.plusDays(1).plusHours(-24 + hourOffset).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
+    assertEquals("Start idag", now.plusDays(1).plusHours(-22 + hourOffset).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
     assertEquals("Slut imorgon", now.plusDays(1).plusHours(-2 + hourOffset).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
   }
 

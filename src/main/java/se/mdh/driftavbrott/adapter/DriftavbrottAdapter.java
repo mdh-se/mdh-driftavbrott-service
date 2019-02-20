@@ -58,38 +58,41 @@ public class DriftavbrottAdapter {
       LocalDate startDate;
       LocalDate slutDate;
       LocalTime nowTime = LocalTime.now();
-      if(nowTime.isAfter(slutTime)) {
-        slutDate = tomorrow;
-        if(slutTime.isAfter(startTime)) {
-          startDate = slutDate;
+
+      if(startTime.isAfter(slutTime)) {
+        // Olika start- och slutdag
+        if(nowTime.isBefore(slutTime)) {
+          // Dag 2
+          startDate = yesterday;
+          slutDate = today;
         }
-        else {
+        else if(nowTime.isAfter(startTime)) {
+          // Dag 1
           startDate = today;
-        }
-      }
-      else if(nowTime.isBefore(startTime)) {
-        startDate = today;
-        if(slutTime.isAfter(startTime)) {
-          slutDate = startDate;
+          slutDate = tomorrow;
         }
         else {
+          // Utanför
+          startDate = today;
           slutDate = tomorrow;
         }
       }
       else {
-        startDate = today;
-        if(slutTime.isAfter(startTime)) {
-          slutDate = startDate;
+        // Samma start- och slutdag
+        if(nowTime.isBefore(startTime)) {
+          // Vi har inte passerat starttiden ännu, så nästa driftavbrott kommer att vara idag
+          startDate = today;
+          slutDate = today;
+        }
+        else if(nowTime.isAfter(slutTime)) {
+          // Vi har passerat sluttiden, så nästa driftavbrott kommer att vara imorgon
+          startDate = tomorrow;
+          slutDate = tomorrow;
         }
         else {
-          if(today.equals(startDate)) {
-            // Vi är på dag 1
-            slutDate = tomorrow;
-          }
-          else {
-            startDate = yesterday;
-            slutDate = today;
-          }
+          // Vi ligger mellan start- och sluttid, så driftavbrottet är idag
+          startDate = today;
+          slutDate = today;
         }
       }
 
