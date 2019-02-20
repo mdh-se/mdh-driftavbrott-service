@@ -45,7 +45,9 @@ public class IcServiceTestCase {
   @Test
   public void getPagaendeDriftavbrottUtanMarginal() {
     IcService icService = new IcService(repository, new DriftavbrottAdapter());
+    // När vi konverterar till Java 8 time API använd DateTimeFormatter.ofPattern()
     DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    // När vi konverterar till Java 8 time API använd LocalDateTime.parse()
     DateTime dt = formatter.parseDateTime("2017-10-04 10:58:00");
     DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
     try {
@@ -61,7 +63,9 @@ public class IcServiceTestCase {
   @Test
   public void getIckePagaendeDriftavbrottUtanMarginal() {
     IcService icService = new IcService(repository, new DriftavbrottAdapter());
+    // När vi konverterar till Java 8 time API använd DateTimeFormatter.ofPattern()
     DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    // När vi konverterar till Java 8 time API använd LocalDateTime.parse()
     DateTime dt = formatter.parseDateTime("2017-10-04 11:58:00");
     DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
     try {
@@ -76,7 +80,9 @@ public class IcServiceTestCase {
 
   @Test
   public void getPagaendeDriftavbrottMedSlutMarginal() {
+    // När vi konverterar till Java 8 time API använd DateTimeFormatter.ofPattern()
     DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    // När vi konverterar till Java 8 time API använd LocalDateTime.parse()
     DateTime dt = formatter.parseDateTime("2017-10-04 11:05:00");
     DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
     IcService icService = new IcService(repository, new DriftavbrottAdapter());
@@ -95,7 +101,9 @@ public class IcServiceTestCase {
 
   @Test
   public void getPagaendeDriftavbrottMedStartMarginal() {
+    // När vi konverterar till Java 8 time API använd DateTimeFormatter.ofPattern()
     DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    // När vi konverterar till Java 8 time API använd LocalDateTime.parse()
     DateTime dt = formatter.parseDateTime("2017-10-03 15:58:00");
     DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
     IcService icService = new IcService(repository, new DriftavbrottAdapter());

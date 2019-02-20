@@ -22,6 +22,7 @@ import se.mdh.driftavbrott.repository.Driftavbrottpost;
 public class DriftavbrottAdapter {
   private static final NivaType DEFAULT_NIVA = NivaType.ERROR;
 
+  // När vi konverterar till Java 8 time API använd DateTimeFormatter.ofPattern()
   static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
   static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern("HH:mm");
   static final DateTimeFormatter DATE_TIME_FORMATTER_MESSAGE = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
@@ -96,12 +97,14 @@ public class DriftavbrottAdapter {
         }
       }
 
+      // När vi konverterar till Java 8 time API använd .atTime()
       driftavbrott.setStart(startDate.toLocalDateTime(startTime));
       driftavbrott.setSlut(slutDate.toLocalDateTime(slutTime));
     }
 
     // Hantera meddelanden och injicera datumen i dem
     Map<String, String> valuesMap = new HashMap<>();
+    // När vi konverterar till Java 8 time API använd .format(
     valuesMap.put("start", driftavbrott.getStart().toString(DATE_TIME_FORMATTER_MESSAGE));
     valuesMap.put("slut", driftavbrott.getSlut().toString(DATE_TIME_FORMATTER_MESSAGE));
 
