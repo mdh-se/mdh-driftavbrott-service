@@ -218,6 +218,15 @@
         </excludes>
       </resource>
     </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+        <excludes>
+          <exclude>**/*.properties</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -233,6 +242,24 @@
               <resources>
                 <resource>
                   <directory>src/main/resources</directory>
+                  <filtering>true</filtering>
+                  <includes>
+                    <include>**/*.properties</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>test-resources-properties</id>
+            <goals>
+              <goal>testResources</goal>
+            </goals>
+            <configuration>
+              <encoding>ISO-8859-1</encoding>
+              <resources>
+                <resource>
+                  <directory>src/test/resources</directory>
                   <filtering>true</filtering>
                   <includes>
                     <include>**/*.properties</include>
