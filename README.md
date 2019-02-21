@@ -19,7 +19,15 @@ Den filen ska placeras på följande sökväg:
 Formatet på filen är att varje kanal har en rad i filen där kanalens namn är
 nyckel och värdet består av två datumstämplar separerade med semikolon, t.ex.
 ```
-alltid=2017-09-28T00:00;2099-12-31T23:59`
+alltid=2017-09-28T00:00;2099-12-31T23:59
+```
+
+Om man vill så kan man även lägga till meddelanden på svenska och engelska
+för den aktuella kanalen. Även desssa separeras med semikolon. Dessa är inte
+obligatoriska, och om de inte anges används defaultvärden. Formatet blir då
+enligt nedan
+```
+alltid=2017-09-28T00:00;2099-12-31T23:59;Felmeddelande på svenska;Error message in English 
 ```
 
 Det går även att lägga in två klockslag för driftavbrott som återkommer varje
@@ -27,6 +35,8 @@ dygn, t.ex.
 ```
 ladok.backup=01:00;03:40
 ```
+
+Även ovanstående kan kompletteras med egna felmeddelanden om man vill.
 
 Så här kan en komplett konfiguration se ut:
 ```
@@ -86,8 +96,7 @@ http://localhost:3301/mdh-driftavbrott/v1/driftavbrott/pagaende?kanal=alltid&sys
 ## Statuskoder
 
 Om tjänsten existerar och är rätt konfigurerad så returnererar den status 200
-om det finns ett driftavbrott eller status 404 om det inte finns något
-driftavbrott.
+om det finns driftavbrott eller status 204 om det inte finns något driftavbrott.
 
 Om tjänsten existerar men är felaktigt konfigurerad eller inte kan prata med
 datakällan för driftavbrott så returnerar den status 500.
