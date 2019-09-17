@@ -1,13 +1,13 @@
 package se.mdh.driftavbrott.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.LocalDate;
 import org.junit.Test;
+import se.mdh.driftavbrott.TimeMachine;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Enhetstester för {@link DriftavbrottpostRepository}.
@@ -21,7 +21,7 @@ public class DriftavbrottpostRepositoryPropertiesTestCase {
 
   @Test
   public void testListaPoster() throws DriftavbrottpostRepositoryException {
-    LocalDate now = LocalDate.now();
+    LocalDate now = TimeMachine.now().toLocalDate();
     List<Driftavbrottpost> driftavbrottposter = repository.listaPoster(now);
     assertEquals(1, driftavbrottposter.stream().filter(d -> d.getKanal().equals("ladok.backup")).count());
     assertEquals(1, driftavbrottposter.stream().filter(d -> d.getKanal().equals("ladok.produktionssattning")).count());

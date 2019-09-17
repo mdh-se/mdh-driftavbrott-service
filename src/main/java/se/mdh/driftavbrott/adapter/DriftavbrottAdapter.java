@@ -1,14 +1,14 @@
 package se.mdh.driftavbrott.adapter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.text.StringSubstitutor;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Component;
+import se.mdh.driftavbrott.TimeMachine;
 import se.mdh.driftavbrott.modell.Driftavbrott;
 import se.mdh.driftavbrott.modell.NivaType;
 import se.mdh.driftavbrott.repository.Driftavbrottpost;
@@ -22,10 +22,9 @@ import se.mdh.driftavbrott.repository.Driftavbrottpost;
 public class DriftavbrottAdapter {
   private static final NivaType DEFAULT_NIVA = NivaType.ERROR;
 
-  // När vi konverterar till Java 8 time API använd DateTimeFormatter.ofPattern()
-  static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
-  static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern("HH:mm");
-  static final DateTimeFormatter DATE_TIME_FORMATTER_MESSAGE = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
+  static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+  static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+  static final DateTimeFormatter DATE_TIME_FORMATTER_MESSAGE = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
   /**
    * Konverterar en {@link Driftavbrottpost} till en {@link Driftavbrott}.
@@ -53,12 +52,12 @@ public class DriftavbrottAdapter {
     else { // Adapteras som en tid som upprepas varje dag - bestäm dagar
       LocalTime startTime = LocalTime.parse(post.getStart(), TIME_FORMATTER);
       LocalTime slutTime = LocalTime.parse(post.getSlut(), TIME_FORMATTER);
-      LocalDate today = LocalDate.now();
+      LocalDate today = TimeMachine.now().toLocalDate();
       LocalDate tomorrow = today.plusDays(1);
       LocalDate yesterday = today.plusDays(-1);
       LocalDate startDate;
       LocalDate slutDate;
-      LocalTime nowTime = LocalTime.now();
+      LocalTime nowTime = TimeMachine.now().toLocalTime();
 
       if(startTime.isAfter(slutTime)) {
         // Olika start- och slutdag
@@ -97,16 +96,14 @@ public class DriftavbrottAdapter {
         }
       }
 
-      // När vi konverterar till Java 8 time API använd .atTime()
-      driftavbrott.setStart(startDate.toLocalDateTime(startTime));
-      driftavbrott.setSlut(slutDate.toLocalDateTime(slutTime));
+      driftavbrott.setStart(startDate.atTime(startTime));
+      driftavbrott.setSlut(slutDate.atTime(slutTime));
     }
 
     // Hantera meddelanden och injicera datumen i dem
     Map<String, String> valuesMap = new HashMap<>();
-    // När vi konverterar till Java 8 time API använd .format(
-    valuesMap.put("start", driftavbrott.getStart().toString(DATE_TIME_FORMATTER_MESSAGE));
-    valuesMap.put("slut", driftavbrott.getSlut().toString(DATE_TIME_FORMATTER_MESSAGE));
+    valuesMap.put("start", DATE_TIME_FORMATTER_MESSAGE.format(driftavbrott.getStart()));
+    valuesMap.put("slut", DATE_TIME_FORMATTER_MESSAGE.format(driftavbrott.getSlut()));
 
     StringSubstitutor sub = new StringSubstitutor(valuesMap);
     String meddelandeSv = sub.replace(post.getMeddelandeSv());

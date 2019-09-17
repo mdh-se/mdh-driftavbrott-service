@@ -1,7 +1,7 @@
 package se.mdh.driftavbrott.repository;
 
+import java.time.LocalDate;
 import java.util.List;
-import org.joda.time.LocalDate;
 
 /**
  * Interface för att hämta {@link Driftavbrottpost}er från en datakälla.

@@ -1,14 +1,15 @@
 package se.mdh.driftavbrott.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Service;
+import se.mdh.driftavbrott.TimeMachine;
 import se.mdh.driftavbrott.adapter.DriftavbrottAdapter;
 import se.mdh.driftavbrott.modell.Driftavbrott;
 import se.mdh.driftavbrott.repository.Driftavbrottpost;
@@ -40,7 +41,7 @@ public class IcService {
    */
   public Optional<Driftavbrott> getPagaendeDriftavbrott(final Collection<String> kanaler, final int marginal) throws DriftavbrottpostRepositoryException {
 
-    List<Driftavbrottpost> poster = driftavbrottpostRepository.listaPoster(LocalDate.now());
+    List<Driftavbrottpost> poster = driftavbrottpostRepository.listaPoster(TimeMachine.now().toLocalDate());
 
     Stream<Driftavbrottpost> listStream = poster.stream();
     // filtrera bort poster som inte finns i listan över kanaler
@@ -52,8 +53,8 @@ public class IcService {
         .map(driftavbrottAdapter::konvertera)
         // Filtrera ned samlingen till driftavbrott som pågår
         .filter(d ->
-                    LocalDateTime.now().isAfter(d.getStart().minusMinutes(marginal))
-                        && LocalDateTime.now().isBefore(d.getSlut().plusMinutes(marginal)))
+          TimeMachine.now().isAfter(d.getStart().minusMinutes(marginal))
+              && TimeMachine.now().isBefore(d.getSlut().plusMinutes(marginal)))
         .sorted(Comparator.comparing(Driftavbrott::getSlut))
         .collect(Collectors.toList());
 

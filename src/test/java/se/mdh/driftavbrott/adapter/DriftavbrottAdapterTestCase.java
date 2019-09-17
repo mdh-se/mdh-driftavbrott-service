@@ -1,15 +1,13 @@
 package se.mdh.driftavbrott.adapter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import se.mdh.driftavbrott.TimeMachine;
 import se.mdh.driftavbrott.modell.Driftavbrott;
 import se.mdh.driftavbrott.modell.NivaType;
 import se.mdh.driftavbrott.repository.Driftavbrottpost;
@@ -53,28 +51,26 @@ public class DriftavbrottAdapterTestCase {
   @AfterClass
   public static void afterClass() {
     // Återställ tiden igen när alla tester är klara
-    DateTimeUtils.setCurrentMillisSystem();
+    TimeMachine.useSystemClock();
   }
 
   @BeforeClass
   public static void beforeClass() {
     // Gör tidsjämförelser som om klockan alltid är 21:00
-    // När vi konverterar till Java 8 time API använd DateTimeFormatter.ofPattern()
-    DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-    // När vi konverterar till Java 8 time API använd LocalDateTime.parse()
-    DateTime dt = formatter.parseDateTime("2019-02-20 21:00:00");
-    DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime dt = LocalDateTime.parse("2019-02-20 21:00:00", formatter);
+    TimeMachine.setFixedClockAt(dt);
 
-    now = LocalDateTime.now();
+    now = TimeMachine.now();
     log.info("Använder tidpunkten " + now + " som \"nu\" under under testerna.");
   }
 
   private Driftavbrottpost createDriftavbrottpostOlikaDagar(LocalDateTime runTime, int startOffset, int slutOffset) {
     Driftavbrottpost post = new Driftavbrottpost();
     LocalDateTime start = runTime.plusHours(startOffset);
-    post.setStart(start.toLocalTime().toString(DriftavbrottAdapter.TIME_FORMATTER));
+    post.setStart(DriftavbrottAdapter.TIME_FORMATTER.format(start.toLocalTime()));
     LocalDateTime slut = runTime.plusHours(slutOffset);
-    post.setSlut(slut.toLocalTime().toString(DriftavbrottAdapter.TIME_FORMATTER));
+    post.setSlut(DriftavbrottAdapter.TIME_FORMATTER.format(slut.toLocalTime()));
     post.setKanal("mdh.test");
     post.setMeddelandeSv(MEDDELANDE_SV);
     post.setMeddelandeEn(MEDDELANDE_EN);
@@ -87,9 +83,9 @@ public class DriftavbrottAdapterTestCase {
   private Driftavbrottpost createDriftavbrottpostSammaDag(LocalDateTime runTime, int startOffset, int slutOffset) {
     Driftavbrottpost post = new Driftavbrottpost();
     LocalDateTime start = runTime.plusMinutes(startOffset);
-    post.setStart(start.toLocalTime().toString(DriftavbrottAdapter.TIME_FORMATTER));
+    post.setStart(DriftavbrottAdapter.TIME_FORMATTER.format(start.toLocalTime()));
     LocalDateTime slut = runTime.plusMinutes(slutOffset);
-    post.setSlut(slut.toLocalTime().toString(DriftavbrottAdapter.TIME_FORMATTER));
+    post.setSlut(DriftavbrottAdapter.TIME_FORMATTER.format(slut.toLocalTime()));
     post.setKanal("mdh.test");
     post.setMeddelandeSv(MEDDELANDE_SV);
     post.setMeddelandeEn(MEDDELANDE_EN);
@@ -111,8 +107,8 @@ public class DriftavbrottAdapterTestCase {
     Driftavbrott driftavbrott = adapter.konvertera(post);
     assertEquals(post.getKanal(), driftavbrott.getKanal());
     assertEquals(NivaType.ERROR, driftavbrott.getNiva());
-    assertEquals(post.getStart(), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
-    assertEquals(post.getSlut(), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
+    assertEquals(post.getStart(), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getStart()));
+    assertEquals(post.getSlut(), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
   }
 
   /**
@@ -127,8 +123,8 @@ public class DriftavbrottAdapterTestCase {
 
     log.info("Samma före  " + driftavbrott.getStart() + "  " + driftavbrott.getSlut());
     // driftavbrott.start resp. slut ska vara samma som indata i post
-    assertEquals("Start idag", now.plusMinutes(1).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
-    assertEquals("Slut idag", now.plusMinutes(2).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
+    assertEquals("Start idag", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusMinutes(1)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getStart()));
+    assertEquals("Slut idag", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusMinutes(2)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
   }
 
   /**
@@ -144,8 +140,8 @@ public class DriftavbrottAdapterTestCase {
 
     log.info("Samma under " + driftavbrott.getStart() + "  " + driftavbrott.getSlut());
     // driftavbrott.start resp. slut ska vara samma som indata i post
-    assertEquals("Start idag", now.plusMinutes(-1).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
-    assertEquals("Slut idag", now.plusMinutes(1).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
+    assertEquals("Start idag", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusMinutes(-1)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getStart()));
+    assertEquals("Slut idag", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusMinutes(1)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
   }
 
   /**
@@ -160,8 +156,8 @@ public class DriftavbrottAdapterTestCase {
 
     log.info("Samma efter " + driftavbrott.getStart() + "  " + driftavbrott.getSlut());
     // driftavbrott.start resp. slut ska vara samma som indata i post, men vara imorgon
-    assertEquals("Start imorgon", now.plusDays(1).plusMinutes(-2).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
-    assertEquals("Slut imorgon", now.plusDays(1).plusMinutes(-1).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
+    assertEquals("Start imorgon", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusDays(1).plusMinutes(-2)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getStart()));
+    assertEquals("Slut imorgon", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusDays(1).plusMinutes(-1)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
   }
 
   /**
@@ -176,8 +172,8 @@ public class DriftavbrottAdapterTestCase {
     Driftavbrott driftavbrott = adapter.konvertera(post);
 
     log.info("Olika före  " + driftavbrott.getStart() + "  " + driftavbrott.getSlut());
-    assertEquals("Start idag", now.plusHours(1).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
-    assertEquals("Slut imorgon", now.plusHours(4).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
+    assertEquals("Start idag", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusHours(1)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getStart()));
+    assertEquals("Slut imorgon", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusHours(4)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
   }
 
   /**
@@ -193,8 +189,8 @@ public class DriftavbrottAdapterTestCase {
 
     log.info("Olika dag1  " + driftavbrott.getStart() + "  " + driftavbrott.getSlut());
     // driftavbrott.start resp. slut ska tillhöra olika dagar
-    assertEquals("Start idag", now.plusHours(-2).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
-    assertEquals("Slut imorgon", now.plusHours(4).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
+    assertEquals("Start idag", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusHours(-2)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getStart()));
+    assertEquals("Slut imorgon", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusHours(4)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
   }
 
   /**
@@ -210,8 +206,8 @@ public class DriftavbrottAdapterTestCase {
 
     log.info("Olika dag2  " + driftavbrott.getStart() + "  " + driftavbrott.getSlut());
     // driftavbrott.start resp. slut ska tillhöra olika dagar
-    assertEquals("Start igår", now.plusHours(-22).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
-    assertEquals("Slut idag", now.plusHours(1).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
+    assertEquals("Start igår", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusHours(-22)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getStart()));
+    assertEquals("Slut idag", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusHours(1)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
   }
 
   /**
@@ -227,8 +223,8 @@ public class DriftavbrottAdapterTestCase {
 
     log.info("Olika efter  " + driftavbrott.getStart() + "  " + driftavbrott.getSlut());
     // driftavbrott.start resp. slut ska vara samma som indata i post, men vara imorgon
-    assertEquals("Start idag", now.plusDays(1).plusHours(-22).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
-    assertEquals("Slut imorgon", now.plusDays(1).plusHours(-2).toString(DriftavbrottAdapter.DATE_TIME_FORMATTER), driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER));
+    assertEquals("Start idag", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusDays(1).plusHours(-22)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getStart()));
+    assertEquals("Slut imorgon", DriftavbrottAdapter.DATE_TIME_FORMATTER.format(now.plusDays(1).plusHours(-2)), DriftavbrottAdapter.DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
   }
 
   /**
@@ -244,8 +240,8 @@ public class DriftavbrottAdapterTestCase {
     assertFalse(driftavbrott.getMeddelandeSv().equals(MEDDELANDE_SV));
     assertFalse(driftavbrott.getMeddelandeSv().contains("${start}"));
     assertFalse(driftavbrott.getMeddelandeSv().contains("${slut}"));
-    assertTrue(driftavbrott.getMeddelandeSv().contains(driftavbrott.getStart().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER_MESSAGE)));
-    assertTrue(driftavbrott.getMeddelandeSv().contains(driftavbrott.getSlut().toString(DriftavbrottAdapter.DATE_TIME_FORMATTER_MESSAGE)));
+    assertTrue(driftavbrott.getMeddelandeSv().contains(DriftavbrottAdapter.DATE_TIME_FORMATTER_MESSAGE.format(driftavbrott.getStart())));
+    assertTrue(driftavbrott.getMeddelandeSv().contains(DriftavbrottAdapter.DATE_TIME_FORMATTER_MESSAGE.format(driftavbrott.getSlut())));
   }
 
   /**
