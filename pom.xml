@@ -11,7 +11,7 @@
 
   <groupId>se.mdh.driftavbrott</groupId>
   <artifactId>mdh-driftavbrott-service</artifactId>
-  <version>1.3.2-SNAPSHOT</version>
+  <version>1.4.0</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>En tjänst för driftavbrott.</description>
@@ -20,7 +20,7 @@
   <scm>
     <connection>scm:git:https://github.com/mdh-se/${project.artifactId}.git</connection>
     <developerConnection>scm:git:https://github.com/mdh-se/${project.artifactId}.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>mdh-driftavbrott-service-1.4.0</tag>
     <url>https://github.com/mdh-se/${project.artifactId}</url>
   </scm>
 
