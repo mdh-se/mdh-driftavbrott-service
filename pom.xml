@@ -5,7 +5,7 @@
   <parent>
     <groupId>se.mdh</groupId>
     <artifactId>mdh-parent</artifactId>
-    <version>34</version>
+    <version>35-SNAPSHOT</version>
     <relativePath>../mdh-parent/pom.xml</relativePath>
   </parent>
 
@@ -82,6 +82,7 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    <!-- @todo Den här borde inte behövas då den inte används i vår kod -->
     <dependency>
       <groupId>net.bytebuddy</groupId>
       <artifactId>byte-buddy</artifactId>
@@ -107,7 +108,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>3.3.0</version>
+      <version>${mdh.mockito.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
