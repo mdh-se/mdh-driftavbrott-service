@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 import se.mdh.driftavbrott.TimeMachine;
 import se.mdh.driftavbrott.adapter.DriftavbrottAdapter;
@@ -21,6 +23,8 @@ import se.mdh.driftavbrott.repository.DriftavbrottpostRepositoryException;
  */
 @Service
 public class IcService {
+  private static final Log log = LogFactory.getLog(IcService.class);
+
   private DriftavbrottpostRepository driftavbrottpostRepository;
   private DriftavbrottAdapter driftavbrottAdapter;
 
@@ -42,6 +46,9 @@ public class IcService {
   public Optional<Driftavbrott> getPagaendeDriftavbrott(final Collection<String> kanaler, final int marginal) throws DriftavbrottpostRepositoryException {
 
     List<Driftavbrottpost> poster = driftavbrottpostRepository.listaPoster(TimeMachine.now().toLocalDate());
+    for(Driftavbrottpost post : poster) {
+      log.debug(post);
+    }
 
     Stream<Driftavbrottpost> listStream = poster.stream();
     // filtrera bort poster som inte finns i listan över kanaler
