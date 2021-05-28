@@ -4,7 +4,7 @@
   <appender name="console" class="org.apache.log4j.ConsoleAppender">
     <param name="encoding" value="${mdh.logging.file.encoding}"/>
     <layout class="org.apache.log4j.PatternLayout">
-      <param name="ConversionPattern" value="%d{ISO8601} %-5p [%X{X-B3-TraceId},%X{X-B3-SpanId}] %c - %m%n"/>
+      <param name="ConversionPattern" value="%d{ISO8601} %-5p [%X{traceId},%X{spanId}] %c - %m%n"/>
     </layout>
   </appender>
 
@@ -14,7 +14,7 @@
     <param name="encoding" value="${mdh.logging.file.encoding}"/>
     <param name="threshold" value="${mdh.logging.file.level}"/>
     <layout class="org.apache.log4j.PatternLayout">
-      <param name="ConversionPattern" value="%d{ISO8601} %-5p [%X{X-B3-TraceId},%X{X-B3-SpanId}] %c - %m%n"/>
+      <param name="ConversionPattern" value="%d{ISO8601} %-5p [%X{traceId},%X{spanId}] %c - %m%n"/>
     </layout>
   </appender>
 
