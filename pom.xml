@@ -26,6 +26,7 @@
 
   <properties>
     <!-- MDH-specific properties -->
+    <mdh.brave.version>5.13.2</mdh.brave.version>
     <mdh.maven.version>3.3.9</mdh.maven.version>
 
     <!-- Standard Maven properties -->
