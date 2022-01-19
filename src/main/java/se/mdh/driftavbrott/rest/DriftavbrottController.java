@@ -44,7 +44,7 @@ public class DriftavbrottController {
                                                   @ApiParam(value = "Anropande system", required = true) @RequestParam(value = "system") final String system,
                                                   @ApiParam(value = "Marginal i minuter") @RequestParam(value = "marginal", defaultValue = "0") final int marginalMinuter,
                                                   final HttpServletRequest request) {
-    String logInfo = system + " -> " + request.getMethod() + " /pagaende med kanaler=" + Arrays.toString(kanaler) + " och marginal i minuter= " + marginalMinuter;
+    String logInfo = system + " -> " + request.getMethod() + " /pagaende med kanaler=" + Arrays.toString(kanaler) + " och marginal i minuter=" + marginalMinuter;
     log.info(logInfo);
     try {
       List<String> kanalList;
