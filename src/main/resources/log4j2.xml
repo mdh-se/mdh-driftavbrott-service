@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration strict="true"
+               xmlns="http://logging.apache.org/log4j/2.0/config"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config https://raw.githubusercontent.com/apache/logging-log4j2/rel/2.20.0/log4j-core/src/main/resources/Log4j-config.xsd">
+  <Appenders>
+    <Appender name="file"
+              type="RollingFile"
+              fileName="${sys:user.home}/logs/${project.artifactId}/${project.artifactId}.log"
+              filePattern="${sys:user.home}/logs/${project.artifactId}/${project.artifactId}.log.%d{yyyy-MM-dd}">
+      <Filters>
+        <Filter type="ThresholdFilter" level="${mdh.logging.file.level}"/>
+      </Filters>
+      <Layout type="PatternLayout" pattern="%d{ISO8601} %-5p [%X{traceId},%X{spanId}] %c - %m%n" charset="${mdh.logging.file.encoding}"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+    </Appender>
+  </Appenders>
+  <Loggers>
+    <Logger name="org.apache.cxf.common.logging" level="debug">
+    </Logger>
+    <Logger name="${project.groupId}" level="${mdh.logging.product.level}">
+    </Logger>
+    <Root level="info">
+      <AppenderRef ref="file"/>
+    </Root>
+  </Loggers>
+</Configuration>
