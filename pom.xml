@@ -28,6 +28,7 @@
     <!-- MDH-specific properties -->
     <mdh.brave.version>5.13.2</mdh.brave.version>
     <mdh.maven.version>3.3.9</mdh.maven.version>
+    <mdh.swagger.version>2.2.8</mdh.swagger.version>
   </properties>
 
   <dependencies>
@@ -93,7 +94,7 @@
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-ui</artifactId>
-      <version>1.6.9</version>
+      <version>1.6.15</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
