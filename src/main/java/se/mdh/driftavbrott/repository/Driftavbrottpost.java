@@ -52,12 +52,12 @@ public class Driftavbrottpost {
 
   @Override
   public String toString() {
-    return "Driftavbrottpost{" +
+    return "Driftavbrottpost[" +
         "kanal='" + kanal + '\'' +
-        ", start='" + start + '\'' +
-        ", slut='" + slut + '\'' +
-        ", meddelandeSv='" + meddelandeSv + '\'' +
-        ", meddelandeEn='" + meddelandeEn + '\'' +
-        '}';
+        ",start='" + start + '\'' +
+        ",slut='" + slut + '\'' +
+        ",meddelandeSv='" + meddelandeSv + '\'' +
+        ",meddelandeEn='" + meddelandeEn + '\'' +
+        ']';
   }
 }
