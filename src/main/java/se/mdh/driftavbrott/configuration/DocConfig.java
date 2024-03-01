@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by johan on 2017-02-08.
+ *
+ * @author Johan Nilsson
  */
 @Configuration
 public class DocConfig {

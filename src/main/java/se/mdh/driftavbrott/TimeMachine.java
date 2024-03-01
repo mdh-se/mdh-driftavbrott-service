@@ -11,25 +11,32 @@ import java.time.ZoneId;
  * <p>
  * Klassen funkar lite som <code>DateTimeUtils.setCurrentMillisFixed()</code>
  * och <code>DateTimeUtils.setCurrentMillisSystem()</code> i Joda Time.
- * <p>
- * https://stackoverflow.com/questions/24491260/mocking-time-in-java-8s-java-time-api/29360514#29360514
+ *
+ * @author https://stackoverflow.com/questions/24491260/mocking-time-in-java-8s-java-time-api/29360514#29360514
  */
-public class TimeMachine {
+public final class TimeMachine {
   private static Clock clock = Clock.systemDefaultZone();
   private static ZoneId zoneId = ZoneId.systemDefault();
+
+  /**
+   * Utility-klass.
+   */
+  private TimeMachine() {
+  }
 
   public static LocalDateTime now() {
     return LocalDateTime.now(getClock());
   }
 
-  public static void setFixedClockAt(LocalDateTime date){
+  public static void setFixedClockAt(final LocalDateTime date) {
     clock = Clock.fixed(date.atZone(zoneId).toInstant(), zoneId);
   }
 
-  public static void useSystemClock(){
+  public static void useSystemClock() {
     clock = Clock.systemDefaultZone();
   }
 
   private static Clock getClock() {
-    return clock ;
-  }}
+    return clock;
+  }
+}

@@ -2,6 +2,8 @@ package se.mdh.driftavbrott.repository;
 
 /**
  * Representerar en driftavbrottspost.
+ *
+ * @author Dennis Lundberg
  */
 public class Driftavbrottpost {
   private String kanal;

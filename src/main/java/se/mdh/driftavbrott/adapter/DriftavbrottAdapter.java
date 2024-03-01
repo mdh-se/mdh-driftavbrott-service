@@ -17,6 +17,8 @@ import se.mdh.driftavbrott.repository.Driftavbrottpost;
  * Adapterar mellan Driftavbrottpost-objekt och Driftavbrott-objekt. Det första
  * är något som har hämtats från ett DriftavbrottRepository och det andra är det
  * som skickas från denna service.
+ *
+ * @author Dennis Lundberg
  */
 @Component
 public class DriftavbrottAdapter {

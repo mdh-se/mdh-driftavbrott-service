@@ -20,6 +20,8 @@ import org.springframework.stereotype.Repository;
 /**
  * En implementation av {@link DriftavbrottpostRepository} som hämtar {@link Driftavbrottpost}er från
  * en properties-fil.
+ *
+ * @author Dennis Lundberg
  */
 @Repository
 public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRepository {

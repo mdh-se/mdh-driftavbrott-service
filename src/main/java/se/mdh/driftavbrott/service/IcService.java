@@ -1,7 +1,5 @@
 package se.mdh.driftavbrott.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -20,6 +18,8 @@ import se.mdh.driftavbrott.repository.DriftavbrottpostRepositoryException;
 
 /**
  * En service som hanterar uthämtning av {@link Driftavbrott}-objekt.
+ *
+ * @author Dennis Lundberg
  */
 @Service
 public class IcService {
