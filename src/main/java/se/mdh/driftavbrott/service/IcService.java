@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import se.mdh.driftavbrott.TimeMachine;
 import se.mdh.driftavbrott.adapter.DriftavbrottAdapter;
 import se.mdh.driftavbrott.modell.Driftavbrott;
+import se.mdh.driftavbrott.modell.NivaType;
 import se.mdh.driftavbrott.repository.Driftavbrottpost;
 import se.mdh.driftavbrott.repository.DriftavbrottpostRepository;
 import se.mdh.driftavbrott.repository.DriftavbrottpostRepositoryException;
@@ -62,12 +63,13 @@ public class IcService {
         .filter(d ->
           TimeMachine.now().isAfter(d.getStart().minusMinutes(marginal))
               && TimeMachine.now().isBefore(d.getSlut().plusMinutes(marginal)))
-        .sorted(Comparator.comparing(Driftavbrott::getSlut))
+        // Sortera driftavbrott enligt slut (ascending) så att vi får de som slutade först längst fram i samlingen.
+        // Avbrott som ligger på info-nivå läggs sist.
+        .sorted(Comparator.comparing((Driftavbrott d) -> d.getKanal().endsWith(NivaType.INFO.value().toLowerCase())).thenComparing(Driftavbrott::getSlut))
         .collect(Collectors.toList());
 
-    // Sortera driftavbrott enligt slut (ascending) så att vi får de som slutade först först i samlingen
-
-    // Returnera den sista gällande
-    return driftavbrotts.stream().reduce((first, second) -> second);
+    // Returnera det gällande driftavbrottet
+     return driftavbrotts.stream()
+        .findFirst();
   }
 }

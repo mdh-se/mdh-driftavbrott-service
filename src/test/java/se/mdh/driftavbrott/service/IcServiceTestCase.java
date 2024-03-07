@@ -12,6 +12,7 @@ import org.junit.Test;
 import se.mdh.driftavbrott.TimeMachine;
 import se.mdh.driftavbrott.adapter.DriftavbrottAdapter;
 import se.mdh.driftavbrott.modell.Driftavbrott;
+import se.mdh.driftavbrott.modell.NivaType;
 import se.mdh.driftavbrott.repository.DriftavbrottpostRepository;
 import se.mdh.driftavbrott.repository.DriftavbrottpostRepositoryException;
 import se.mdh.driftavbrott.repository.DriftavbrottpostRepositoryProperties;
@@ -107,6 +108,40 @@ public class IcServiceTestCase {
 
       pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(kanaler, 1);
       assertFalse(pagaendeDriftavbrott.isPresent());
+    }
+    catch(DriftavbrottpostRepositoryException e) {
+      e.printStackTrace();
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void getPagaendeDriftavbrottMedSlutMarginalPaInfoNiva() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime dt = LocalDateTime.parse("2018-09-28 10:05:00", formatter);
+    TimeMachine.setFixedClockAt(dt);
+    IcService icService = new IcService(repository, new DriftavbrottAdapter());
+    try {
+      Optional<Driftavbrott> pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(Arrays.asList("mdu.systemunderhall.info"), 1);
+      assertTrue(pagaendeDriftavbrott.isPresent());
+      assertTrue(pagaendeDriftavbrott.get().getKanal().endsWith(NivaType.INFO.value().toLowerCase()));
+    }
+    catch(DriftavbrottpostRepositoryException e) {
+      e.printStackTrace();
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void getPagaendeDriftavbrottMedSlutMarginalValjErrorInnanInfo() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime dt = LocalDateTime.parse("2018-09-28 10:05:00", formatter);
+    TimeMachine.setFixedClockAt(dt);
+    IcService icService = new IcService(repository, new DriftavbrottAdapter());
+    try {
+      Optional<Driftavbrott> pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(Arrays.asList("mdu.systemunderhall","mdu.systemunderhall.info"), 1);
+      assertTrue(pagaendeDriftavbrott.isPresent());
+      assertFalse(pagaendeDriftavbrott.get().getKanal().endsWith(NivaType.INFO.value().toLowerCase()));
     }
     catch(DriftavbrottpostRepositoryException e) {
       e.printStackTrace();
