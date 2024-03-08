@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import se.mdh.driftavbrott.modell.NivaType;
 
 /**
  * En implementation av {@link DriftavbrottpostRepository} som hämtar {@link Driftavbrottpost}er från
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Repository;
 public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRepository {
   private static final Log log = LogFactory.getLog(DriftavbrottpostRepositoryProperties.class);
   private static final String KANAL_DEFAULT = "default";
+  private static final String KANAL_INFO_DEFAULT = "default.info";
 
   private String propertiesfil;
 
@@ -66,47 +68,44 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
           post.setMeddelandeEn(splitted[3]);
         }
 
+        // Svenska
         // Sätt defaultvärde om inget är angivet i driftavbrottet
         if(StringUtils.isEmpty(post.getMeddelandeSv())) {
           String defaultMeddelandeSv = "";
 
-          try {
+          if(driftavbrottBundleSv.containsKey(post.getKanal())) {
             defaultMeddelandeSv = driftavbrottBundleSv.getString(post.getKanal());
           }
-          catch(MissingResourceException e1) {
-            try {
-              defaultMeddelandeSv = driftavbrottBundleSv.getString(KANAL_DEFAULT);
-              log.debug("Inget meddelande konfigurerat för kanalen "
-                            + post.getKanal()
-                            + " på svenska. Använder ett generellt defaultmeddelande.");
-            }
-            catch(MissingResourceException e2) {
-              log.debug("Inget defaultmeddelande konfigurerat för kanalen "
-                            + post.getKanal()
-                            + " på svenska. Använder ett tomt meddelande.");
+          else {
+            if(post.getKanal().endsWith(NivaType.INFO.value().toLowerCase())) {
+              if(driftavbrottBundleSv.containsKey(KANAL_INFO_DEFAULT)) {
+                defaultMeddelandeSv = driftavbrottBundleSv.getString(KANAL_INFO_DEFAULT);
+              }
+              else if(driftavbrottBundleSv.containsKey(KANAL_DEFAULT)) {
+                defaultMeddelandeSv = driftavbrottBundleSv.getString(KANAL_DEFAULT);
+              }
             }
           }
 
           post.setMeddelandeSv(defaultMeddelandeSv);
         }
 
+        //Engelska
+        // Sätt defaultvärde om inget är angivet i driftavbrottet
         if(StringUtils.isEmpty(post.getMeddelandeEn())) {
           String defaultMeddelandeEn = "";
 
-          try {
+          if(driftavbrottBundleEn.containsKey(post.getKanal())) {
             defaultMeddelandeEn = driftavbrottBundleEn.getString(post.getKanal());
           }
-          catch(MissingResourceException e1) {
-            try {
-              defaultMeddelandeEn = driftavbrottBundleEn.getString(KANAL_DEFAULT);
-              log.debug("Inget meddelande konfigurerat för kanalen "
-                            + post.getKanal()
-                            + " på engelska. Använder ett generellt defaultmeddelande.");
-            }
-            catch(MissingResourceException e2) {
-              log.debug("Inget defaultmeddelande konfigurerat för kanalen "
-                            + post.getKanal()
-                            + " på engelska. Använder ett tomt meddelande.");
+          else {
+            if(post.getKanal().endsWith(NivaType.INFO.value().toLowerCase())) {
+              if(driftavbrottBundleEn.containsKey(KANAL_INFO_DEFAULT)) {
+                defaultMeddelandeEn = driftavbrottBundleEn.getString(KANAL_INFO_DEFAULT);
+              }
+              else if(driftavbrottBundleEn.containsKey(KANAL_DEFAULT)) {
+                defaultMeddelandeEn = driftavbrottBundleEn.getString(KANAL_DEFAULT);
+              }
             }
           }
 
