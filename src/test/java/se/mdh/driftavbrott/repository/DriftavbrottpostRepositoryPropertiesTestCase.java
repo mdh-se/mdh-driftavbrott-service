@@ -22,7 +22,7 @@ public class DriftavbrottpostRepositoryPropertiesTestCase {
   @Test
   public void testListaPoster() throws DriftavbrottpostRepositoryException {
     LocalDate now = TimeMachine.now().toLocalDate();
-    List<Driftavbrottpost> driftavbrottposter = repository.listaPoster(now);
+    List<Driftavbrottpost> driftavbrottposter = repository.listaPoster();
     assertEquals(1, driftavbrottposter.stream().filter(d -> d.getKanal().equals("ladok.backup")).count());
     assertEquals(1, driftavbrottposter.stream().filter(d -> d.getKanal().equals("ladok.produktionssattning")).count());
     assertEquals(1, driftavbrottposter.stream().filter(d -> d.getKanal().equals("ladok.uppgradering")).count());

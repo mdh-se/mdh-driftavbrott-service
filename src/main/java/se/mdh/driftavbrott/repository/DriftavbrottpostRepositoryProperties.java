@@ -3,11 +3,9 @@ package se.mdh.driftavbrott.repository;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import org.apache.commons.io.IOUtils;
@@ -42,7 +40,7 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
   }
 
   @Override
-  public List<Driftavbrottpost> listaPoster(final LocalDate efter) throws DriftavbrottpostRepositoryException {
+  public List<Driftavbrottpost> listaPoster() throws DriftavbrottpostRepositoryException {
     InputStream inputStream = null;
     try {
       List<Driftavbrottpost> poster = new ArrayList<>();

@@ -46,7 +46,7 @@ public class IcService {
    */
   public Optional<Driftavbrott> getPagaendeDriftavbrott(final Collection<String> kanaler, final int marginal) throws DriftavbrottpostRepositoryException {
 
-    List<Driftavbrottpost> poster = driftavbrottpostRepository.listaPoster(TimeMachine.now().toLocalDate());
+    List<Driftavbrottpost> poster = driftavbrottpostRepository.listaPoster();
     for(Driftavbrottpost post : poster) {
       log.debug(post);
     }

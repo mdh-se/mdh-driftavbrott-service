@@ -1,6 +1,5 @@
 package se.mdh.driftavbrott.repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -9,5 +8,5 @@ import java.util.List;
  * @author Dennis Lundberg
  */
 public interface DriftavbrottpostRepository {
-  List<Driftavbrottpost> listaPoster(LocalDate efter) throws DriftavbrottpostRepositoryException;
+  List<Driftavbrottpost> listaPoster() throws DriftavbrottpostRepositoryException;
 }
