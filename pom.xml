@@ -11,7 +11,7 @@
 
   <groupId>se.mdh.driftavbrott</groupId>
   <artifactId>mdh-driftavbrott-service</artifactId>
-  <version>1.7.2-SNAPSHOT</version>
+  <version>1.8.0-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>En tjänst för driftavbrott.</description>
