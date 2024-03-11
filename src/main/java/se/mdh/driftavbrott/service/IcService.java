@@ -65,7 +65,7 @@ public class IcService {
               && TimeMachine.now().isBefore(d.getSlut().plusMinutes(marginal)))
         // Sortera driftavbrott enligt slut (ascending) så att vi får de som slutade först längst fram i samlingen.
         // Avbrott som ligger på info-nivå läggs sist.
-        .sorted(Comparator.comparing((Driftavbrott d) -> d.getKanal().endsWith(NivaType.INFO.value().toLowerCase())).thenComparing(Driftavbrott::getSlut))
+        .sorted(Comparator.comparing((Driftavbrott d) -> d.getKanal().endsWith(NivaType.INFO.value().toLowerCase())).thenComparing((Driftavbrott d) -> d.getKanal().endsWith(NivaType.WARN.value().toLowerCase())).thenComparing(Driftavbrott::getSlut))
         .collect(Collectors.toList());
 
     // Returnera det gällande driftavbrottet

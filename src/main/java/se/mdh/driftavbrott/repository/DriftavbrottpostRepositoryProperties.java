@@ -26,6 +26,7 @@ import se.mdh.driftavbrott.modell.NivaType;
 public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRepository {
   private static final Log log = LogFactory.getLog(DriftavbrottpostRepositoryProperties.class);
   private static final String KANAL_DEFAULT = "default";
+  private static final String KANAL_WARN_DEFAULT = "default.warn";
   private static final String KANAL_INFO_DEFAULT = "default.info";
 
   private String propertiesfil;
@@ -75,7 +76,15 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
             defaultMeddelandeSv = driftavbrottBundleSv.getString(post.getKanal());
           }
           else {
-            if(post.getKanal().endsWith(NivaType.INFO.value().toLowerCase())) {
+            if(post.getKanal().endsWith(NivaType.WARN.value().toLowerCase())) {
+              if(driftavbrottBundleSv.containsKey(KANAL_WARN_DEFAULT)) {
+                defaultMeddelandeSv = driftavbrottBundleSv.getString(KANAL_WARN_DEFAULT);
+              }
+              else if(driftavbrottBundleSv.containsKey(KANAL_DEFAULT)) {
+                defaultMeddelandeSv = driftavbrottBundleSv.getString(KANAL_DEFAULT);
+              }
+            }
+            else if(post.getKanal().endsWith(NivaType.INFO.value().toLowerCase())) {
               if(driftavbrottBundleSv.containsKey(KANAL_INFO_DEFAULT)) {
                 defaultMeddelandeSv = driftavbrottBundleSv.getString(KANAL_INFO_DEFAULT);
               }
@@ -97,7 +106,15 @@ public class DriftavbrottpostRepositoryProperties implements DriftavbrottpostRep
             defaultMeddelandeEn = driftavbrottBundleEn.getString(post.getKanal());
           }
           else {
-            if(post.getKanal().endsWith(NivaType.INFO.value().toLowerCase())) {
+            if(post.getKanal().endsWith(NivaType.WARN.value().toLowerCase())) {
+              if(driftavbrottBundleEn.containsKey(KANAL_WARN_DEFAULT)) {
+                defaultMeddelandeEn = driftavbrottBundleEn.getString(KANAL_WARN_DEFAULT);
+              }
+              else if(driftavbrottBundleEn.containsKey(KANAL_DEFAULT)) {
+                defaultMeddelandeEn = driftavbrottBundleEn.getString(KANAL_DEFAULT);
+              }
+            }
+            else if(post.getKanal().endsWith(NivaType.INFO.value().toLowerCase())) {
               if(driftavbrottBundleEn.containsKey(KANAL_INFO_DEFAULT)) {
                 defaultMeddelandeEn = driftavbrottBundleEn.getString(KANAL_INFO_DEFAULT);
               }

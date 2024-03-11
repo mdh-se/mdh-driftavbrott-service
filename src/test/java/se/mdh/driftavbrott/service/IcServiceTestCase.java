@@ -148,4 +148,22 @@ public class IcServiceTestCase {
       fail(e.getMessage());
     }
   }
+
+  @Test
+  public void getPagaendeDriftavbrottUtanMarginalForSystemunderhall() {
+    IcService icService = new IcService(repository, new DriftavbrottAdapter());
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime dt = LocalDateTime.parse("2018-09-28 09:58:00", formatter);
+    TimeMachine.setFixedClockAt(dt);
+    try {
+      Optional<Driftavbrott> pagaendeDriftavbrott = icService.getPagaendeDriftavbrott(Arrays.asList("mdu.systemunderhall", "mdu.systemunderhall.warn", "mdu.systemunderhall.info"), 0);
+      assertTrue(pagaendeDriftavbrott.isPresent());
+      assertFalse(pagaendeDriftavbrott.get().getKanal().endsWith(NivaType.WARN.value()));
+      assertFalse(pagaendeDriftavbrott.get().getKanal().endsWith(NivaType.INFO.value()));
+    }
+    catch(DriftavbrottpostRepositoryException e) {
+      e.printStackTrace();
+      fail(e.getMessage());
+    }
+  }
 }
