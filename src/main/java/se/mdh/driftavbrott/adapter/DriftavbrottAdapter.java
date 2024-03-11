@@ -45,7 +45,15 @@ public class DriftavbrottAdapter {
     Driftavbrott driftavbrott = new Driftavbrott();
 
     driftavbrott.setKanal(post.getKanal());
-    driftavbrott.setNiva(DEFAULT_NIVA);
+    if(post.getKanal().endsWith(NivaType.INFO.value().toLowerCase())) {
+      driftavbrott.setNiva(NivaType.INFO);
+    }
+    else if(post.getKanal().endsWith(NivaType.WARN.value().toLowerCase())) {
+      driftavbrott.setNiva(NivaType.WARN);
+    }
+    else {
+      driftavbrott.setNiva(DEFAULT_NIVA);
+    }
 
     if(post.getStart().contains("T")) { // Adapteras som datetime
       driftavbrott.setStart(LocalDateTime.parse(post.getStart(), DATE_TIME_FORMATTER));
