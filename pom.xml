@@ -5,13 +5,13 @@
   <parent>
     <groupId>se.mdh</groupId>
     <artifactId>mdh-parent</artifactId>
-    <version>59</version>
+    <version>60</version>
     <relativePath>../mdh-parent/pom.xml</relativePath>
   </parent>
 
   <groupId>se.mdh.driftavbrott</groupId>
   <artifactId>mdh-driftavbrott-service</artifactId>
-  <version>1.8.1-SNAPSHOT</version>
+  <version>1.9.0-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>En tjänst för driftavbrott.</description>
@@ -26,9 +26,7 @@
 
   <properties>
     <!-- MDH-specific properties -->
-    <mdh.brave.version>5.13.2</mdh.brave.version>
     <mdh.maven.version>3.3.9</mdh.maven.version>
-    <mdh.swagger.version>2.2.8</mdh.swagger.version>
   </properties>
 
   <dependencies>
@@ -67,7 +65,6 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
-      <version>1.10.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
@@ -94,7 +91,6 @@
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-ui</artifactId>
-      <version>1.6.15</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
